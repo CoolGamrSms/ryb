@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * @author Kyle
  */
 public class World {
-    Color bgColor = Color.black;
+    Color bgColor = Color.white;
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
    

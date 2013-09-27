@@ -29,7 +29,7 @@ public class Player extends Dynamic{
         super(x,y,48,64);
         prevx = x;
         prevy = y;
-        c = Color.white;
+        c = Color.black;
         velocity = new Vector2f(0f, 0f);
     }
     
@@ -41,9 +41,6 @@ public class Player extends Dynamic{
 
     @Override
     public void update() {
-        
-        Display.console.clearLog();
-        Display.console.writeln("Player {X: " + x + ", Y: " + y + "}");
         
         prevx = x;
         prevy = y;

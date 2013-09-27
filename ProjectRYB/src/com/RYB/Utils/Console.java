@@ -25,7 +25,7 @@ public class Console {
     private int maxLogSize = 10;
     
     public Console(){
-        fontColor = Color.white;
+        fontColor = Color.black;
     }
     
     public void writeln(String msg){

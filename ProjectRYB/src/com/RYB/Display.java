@@ -5,9 +5,9 @@ package com.RYB;
  * and open the template in the editor.
  */
 
-
 import com.RYB.Utils.Console;
 import com.RYB.Utils.Keyboard;
+import com.RYB.Utils.Mouse;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,6 +37,7 @@ public class Display extends Canvas implements Runnable{
     private int fps = 0;
     
     public static Keyboard input;
+    public static Mouse mouse;
     public static Console console;
     
     public Display(String title){
@@ -46,6 +47,9 @@ public class Display extends Canvas implements Runnable{
         world = new World();
         input = new Keyboard();
         addKeyListener(input);
+        
+        mouse = new Mouse();
+        addMouseMotionListener(mouse);
         
         console = new Console();
         console.enable(true);
@@ -119,7 +123,8 @@ public class Display extends Canvas implements Runnable{
         Graphics g = bs.getDrawGraphics();
        
         world.render(g);
-        console.render(g);
+        
+         console.render(g);
         
         g.setColor(Color.white);
         frame.setTitle("RYB Version 0.1 " + Integer.toString(fps) + " fps");
