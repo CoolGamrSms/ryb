@@ -18,6 +18,9 @@ public class Ball extends Dynamic{
 
     private Color c;
     private int d = 40;
+    private float max_spd = 2; //Max velocity of the ball
+    private float acc = 0.04f; //Horizontal movement acceleration
+    private float fric = 0.04f; //Deceleration when not moving
     
     public Ball(float x, float y, int r){
         super(x,y,r,r);
@@ -30,7 +33,7 @@ public class Ball extends Dynamic{
          super(x,y,r,r);
         d = r;
         this.c = c;
-        velocity = new Vector2f(0.75f, 0.75f);
+        velocity = new Vector2f(0.75f, 0f);
     }
     
     @Override
@@ -42,20 +45,24 @@ public class Ball extends Dynamic{
     @Override
     public void update() {
         
-       velocity.y += 0.01; //psuedo gravity
+       velocity.y += 0.02; //psuedo gravity
        
         y+=velocity.y;
-     
+        x+=velocity.x;
+        
         if(y + d > Display.height || y < 0){
             velocity.y *= -1;
         }
         
-        //Key movements
+        //Key movements change velocity
        if(Keyboard.right){
-           x+=velocity.x;
+           velocity.x=Math.min(velocity.x+2*max_spd+acc,3*max_spd)-2*max_spd;
        }
        if(Keyboard.left){
-           x-=velocity.x;
+           velocity.x=Math.max(velocity.x+2*max_spd-acc,max_spd)-2*max_spd;
+       }
+       if(!Keyboard.left && !Keyboard.right){
+           velocity.x=Math.signum(velocity.x)*Math.max(0f,Math.abs(velocity.x)-fric);
        }
        
        if(Keyboard.space){
