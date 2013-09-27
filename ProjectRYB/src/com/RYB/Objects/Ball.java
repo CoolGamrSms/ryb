@@ -59,7 +59,7 @@ public class Ball extends Dynamic{
        }
        
        if(Keyboard.space){
-               c = Color.yellow;
+           c = Color.yellow;
        }else{
            c = Color.green;
        }
