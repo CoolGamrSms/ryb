@@ -1,10 +1,12 @@
 package com.RYB.Objects;
 
+import java.awt.Graphics;
+
 public abstract class Entity {
-    public float x, y;
+    public int x, y;
     private int height, width;
     
-    public Entity(float x, float y, int width, int height){
+    public Entity(int x, int y, int width, int height){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -32,6 +34,6 @@ public abstract class Entity {
         return xOverlap && yOverlap;
     }
     
-    public abstract void render();
+    public abstract void render(Graphics g);
     public abstract void update();
 }

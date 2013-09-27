@@ -32,6 +32,8 @@ public class Display extends Canvas implements Runnable{
     
     private World world;
     
+    private int fps = 0;
+    
     public Display(String title){
         size = new Dimension(width, height);
         this.title = title;
@@ -70,12 +72,33 @@ public class Display extends Canvas implements Runnable{
     
     @Override
     public void run() {
-        
-        while(running){
+        long lastTime = System.nanoTime();
+        long lastTimer = System.currentTimeMillis();
+	double ns = 1000000000.0 / 60.0;
+	double delta = 0;
+	int frames = 0;
+		
+	while(running){
+            long curTime = System.nanoTime();
+            delta+= (curTime - lastTime) / ns;
+            lastTime = curTime;
+			
+            if(delta >= 1){
+		update();
+		delta--;
+            }
             render();
+            frames++;
+			
+            while(System.currentTimeMillis() - lastTimer > 1000){
+		lastTimer+=1000;
+		fps = frames;
+		System.out.println(fps);
+		frames = 0;
+            }
         }
     }
-    float x1 = 0, y1 = 0;
+ 
     private void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -87,10 +110,18 @@ public class Display extends Canvas implements Runnable{
        
         world.render(g);
         
+        g.setColor(Color.white);
+	g.drawString(Integer.toString(fps) + " fps", 10, 25);
+                
         g.dispose();
         bs.show();
         
     }
+    
+    private void update(){
+        world.update();
+    }
+    
     
     public static void main(String[] args){
         Display display = new Display("RYB Version 0.1");
