@@ -19,6 +19,7 @@ public class Player extends Dynamic{
     private Color c;
     private int w = 48;
     private int h = 64;
+    private float prevx, prevy;
     private float max_spd = 1.6f; //Max velocity of the ball
     private float acc = 0.06f; //Horizontal movement acceleration
     private float fric = 0.06f; //Deceleration when not moving
@@ -26,6 +27,8 @@ public class Player extends Dynamic{
     
     public Player(float x, float y){
         super(x,y,48,64);
+        prevx = x;
+        prevy = y;
         c = Color.white;
         velocity = new Vector2f(0f, 0f);
     }
@@ -40,9 +43,11 @@ public class Player extends Dynamic{
     public void update() {
         
        
-       
+        prevx = x;
+        prevy = y;
         y+=velocity.y;
         x+=velocity.x;
+        //Collision code coming as soon as I figure out how to list all statics
         
         if(y + h/2 >= Display.height){
             jumping = false;
