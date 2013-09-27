@@ -16,7 +16,11 @@ public abstract class Dynamic extends Entity {
         return acceleration;
     }
     
-    public void update(){
+    public void updateKinematics(){
+        velocity.x += acceleration.x;
+        velocity.y += acceleration.y;
         
-    }
+        x += velocity.x;
+        y += velocity.y;
+    }  
 }
