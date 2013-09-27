@@ -13,4 +13,8 @@ public class Vector2f {
     public double getMagnitude(){
         return Math.sqrt(x*x + y*y);
     }
+    
+    public static Vector2f add(Vector2f v1, Vector2f v2){
+        return new Vector2f(v1.x + v2.x, v1.y + v2.y);
+    }
 }

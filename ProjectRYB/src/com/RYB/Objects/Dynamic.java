@@ -25,4 +25,7 @@ public abstract class Dynamic extends Entity {
         x += velocity.x;
         y += velocity.y;
     }  
+    public void applyForce(Vector2f force){
+        acceleration = Vector2f.add(acceleration, force);
+    }
 }
