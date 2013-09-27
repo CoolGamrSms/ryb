@@ -5,6 +5,7 @@
 package com.RYB.Objects;
 
 import com.RYB.Display;
+import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,11 +19,18 @@ public class Ball extends Dynamic{
     private Color c;
     private int d = 40;
     
-    public Ball(float x, float y, int width, int height){
-        super(x,y,width,height);
-        
+    public Ball(float x, float y, int r){
+        super(x,y,r,r);
+        d = r;
         c = Color.white;
         velocity = new Vector2f(0.5f, 0.75f);
+    }
+    
+    public Ball(float x, float y, int r, Color c){
+         super(x,y,r,r);
+        d = r;
+        this.c = c;
+        velocity = new Vector2f(0.75f, 0.75f);
     }
     
     @Override
@@ -33,15 +41,29 @@ public class Ball extends Dynamic{
 
     @Override
     public void update() {
-        x+=velocity.x;
-        y+=velocity.y;
         
-        if(x + d > Display.width || x < 0){
-            velocity.x *= -1;
-        }
+       velocity.y += 0.01; //psuedo gravity
+       
+        y+=velocity.y;
+     
         if(y + d > Display.height || y < 0){
             velocity.y *= -1;
         }
+        
+        //Key movements
+       if(Keyboard.right){
+           x+=velocity.x;
+       }
+       if(Keyboard.left){
+           x-=velocity.x;
+       }
+       
+       if(Keyboard.space){
+               c = Color.yellow;
+       }else{
+           c = Color.green;
+       }
+        
     }
     
 }
