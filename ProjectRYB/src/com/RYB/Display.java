@@ -6,6 +6,7 @@ package com.RYB;
  */
 
 
+import com.RYB.Utils.Console;
 import com.RYB.Utils.Keyboard;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -36,6 +37,7 @@ public class Display extends Canvas implements Runnable{
     private int fps = 0;
     
     public static Keyboard input;
+    public static Console console;
     
     public Display(String title){
         size = new Dimension(width, height);
@@ -44,6 +46,9 @@ public class Display extends Canvas implements Runnable{
         world = new World();
         input = new Keyboard();
         addKeyListener(input);
+        
+        console = new Console();
+        console.enable(true);
         
         frame = new JFrame(this.title);
         frame.setResizable(false);
@@ -114,9 +119,10 @@ public class Display extends Canvas implements Runnable{
         Graphics g = bs.getDrawGraphics();
        
         world.render(g);
+        console.render(g);
         
         g.setColor(Color.white);
-	g.drawString(Integer.toString(fps) + " fps", 10, 25);
+        frame.setTitle("RYB Version 0.1 " + Integer.toString(fps) + " fps");
                 
         g.dispose();
         bs.show();

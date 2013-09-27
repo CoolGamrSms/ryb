@@ -42,7 +42,9 @@ public class Player extends Dynamic{
     @Override
     public void update() {
         
-       
+        Display.console.clearLog();
+        Display.console.writeln("Player {X: " + x + ", Y: " + y + "}");
+        
         prevx = x;
         prevy = y;
         y+=velocity.y;

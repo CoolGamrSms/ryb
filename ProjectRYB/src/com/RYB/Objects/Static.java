@@ -4,11 +4,14 @@
  */
 package com.RYB.Objects;
 
+import java.awt.Rectangle;
+
 /**
  *
  * @author Shane
  */
 public abstract class Static extends Entity {
+    
     public Static(float x, float y, int width, int height){
         super(x, y, width, height);
     }

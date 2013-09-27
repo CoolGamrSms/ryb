@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class Keyboard implements KeyListener{
 
 	public boolean keys[] = new boolean[120];
-	public static boolean right, left, up, down, space;
+	public static boolean right, left, up, down, space, KEY_J, KEY_K, KEY_L, KEY_P;
 	
 	public void update(){
 		up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W];
@@ -14,10 +14,11 @@ public class Keyboard implements KeyListener{
 		left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A];
 		right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
                 space = keys[KeyEvent.VK_SPACE];
+                KEY_J = keys[KeyEvent.VK_J];
+                KEY_K = keys[KeyEvent.VK_K];
+                KEY_L = keys[KeyEvent.VK_L];
+                KEY_P = keys[KeyEvent.VK_P];
                 
-                if(up){
-                 System.out.println("RIGHT");   
-                }
 	}
 	
 	public void keyPressed(KeyEvent e) {	

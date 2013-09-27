@@ -15,4 +15,8 @@ public abstract class Dynamic extends Entity {
     public Vector2f getAcceleration(){
         return acceleration;
     }
+    
+    public void update(){
+        
+    }
 }
