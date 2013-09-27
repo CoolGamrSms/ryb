@@ -74,7 +74,7 @@ public class Display extends Canvas implements Runnable{
     public void run() {
         long lastTime = System.nanoTime();
         long lastTimer = System.currentTimeMillis();
-	double ns = 1000000000.0 / 60.0;
+	double ns = 1000000000.0 / 240.0;
 	double delta = 0;
 	int frames = 0;
 		

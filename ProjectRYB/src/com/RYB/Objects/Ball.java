@@ -5,7 +5,7 @@
 package com.RYB.Objects;
 
 import com.RYB.Display;
-import com.RYB.Utils.Vector2;
+import com.RYB.Utils.Vector2f;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -18,17 +18,17 @@ public class Ball extends Dynamic{
     private Color c;
     private int d = 40;
     
-    public Ball(int x, int y, int width, int height){
+    public Ball(float x, float y, int width, int height){
         super(x,y,width,height);
         
         c = Color.white;
-        velocity = new Vector2(3, 1);
+        velocity = new Vector2f(0.5f, 0.75f);
     }
     
     @Override
     public void render(Graphics g) {
         g.setColor(c);
-        g.fillArc(x, y, d,d, 0, 360); 
+        g.fillArc((int)x, (int)y, d,d, 0, 360); 
     }
 
     @Override
