@@ -1,4 +1,5 @@
-import com.RYB.Objects.Entity;
+package com.RYB.Objects;
+
 import com.RYB.Utils.Vector2f;
 
 public abstract class Dynamic extends Entity {
