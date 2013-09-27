@@ -17,7 +17,7 @@ public class ColorBlock extends GreyBlock{
     public boolean r, yc, b;
     private boolean solid;
     private boolean jPress,kPress,lPress = false;
-    //public boolean[] ryb; //commented out so it would compile
+    //public boolean[] ryb; //commented out so code would compile
     
     public ColorBlock(int x, int y, boolean r, boolean yc, boolean b){
         super(x,y);
