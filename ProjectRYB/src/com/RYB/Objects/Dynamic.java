@@ -3,7 +3,8 @@ package com.RYB.Objects;
 import com.RYB.Utils.Vector2f;
 
 public abstract class Dynamic extends Entity {
-    public static final Vector2f GRAVITY = new Vector2f(0, 0.02f);
+    public static final Vector2f GRAVITY = new Vector2f(0, 0.02f),
+                                 FRICTION = new Vector2f(0.06f, 0);
     
     protected Vector2f velocity, acceleration;
     
