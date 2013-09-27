@@ -12,9 +12,11 @@ import java.awt.Graphics;
  * @author Shane
  */
 public class GreyBlock extends Static {
+    
     public GreyBlock(float x, float y){
         super(x, y, 64, 64);
     }
+    
     @Override
     public void render(Graphics g) {
         g.setColor(Color.gray);
