@@ -8,6 +8,7 @@ package com.RYB;
 
 import com.RYB.Objects.Entity;
 import com.RYB.Objects.Blocks.GreyBlock;
+import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -26,6 +27,8 @@ public class World {
     public World(){
         Player player = new Player(50, 50);
         add(player);
+        ColorBlock block = new ColorBlock(300,400,true,false,false);
+        add(block);
     }
     
     public void update(){
