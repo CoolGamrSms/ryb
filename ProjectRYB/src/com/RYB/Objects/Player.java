@@ -12,48 +12,47 @@ import java.awt.Graphics;
 
 /**
  *
- * @author Kyle
+ * @author Shane
  */
-public class Ball extends Dynamic{
+public class Player extends Dynamic{
 
     private Color c;
-    private int d = 40;
+    private int w = 48;
+    private int h = 64;
+    private float prevx, prevy;
     private float max_spd = 1.6f; //Max velocity of the ball
     private float acc = 0.06f; //Horizontal movement acceleration
     private float fric = 0.06f; //Deceleration when not moving
     private boolean jumping = false;
     
-    public Ball(float x, float y, int r){
-        super(x,y,r,r);
-        d = r;
+    public Player(float x, float y){
+        super(x,y,48,64);
+        prevx = x;
+        prevy = y;
         c = Color.white;
-        velocity = new Vector2f(0.5f, 0.75f);
-    }
-    
-    public Ball(float x, float y, int r, Color c){
-         super(x,y,r,r);
-        d = r;
-        this.c = c;
         velocity = new Vector2f(0f, 0f);
     }
     
     @Override
     public void render(Graphics g) {
         g.setColor(c);
-        g.fillArc((int)x, (int)y, d,d, 0, 360); 
+        g.fillRect((int)x-w/2, (int)y-h/2, w, h); 
     }
 
     @Override
     public void update() {
         
        
-       
+        prevx = x;
+        prevy = y;
         y+=velocity.y;
         x+=velocity.x;
+        //Collision code coming as soon as I figure out how to list all statics
         
-        if(y + d >= Display.height){
+        if(y + h/2 >= Display.height){
             jumping = false;
             velocity.y = 0f;
+            y = Display.height-h/2;
         }
         else {
             velocity.y += 0.02f; //psuedo gravity
@@ -66,7 +65,7 @@ public class Ball extends Dynamic{
        if(Keyboard.left){
            velocity.x=Math.max(velocity.x+2*max_spd-acc,max_spd)-2*max_spd;
        }
-       if(!Keyboard.left && !Keyboard.right){
+       if(!(Keyboard.left ^ Keyboard.right)){ //If both or neither are pressed (XNOR)
            velocity.x=Math.signum(velocity.x)*Math.max(0f,Math.abs(velocity.x)-fric);
        }
        

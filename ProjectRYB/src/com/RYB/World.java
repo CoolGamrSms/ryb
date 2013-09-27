@@ -8,6 +8,7 @@ package com.RYB;
 
 import com.RYB.Objects.Ball;
 import com.RYB.Objects.Entity;
+import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class World {
     
     public World(){
          
-        Ball ball = new Ball(50, 50, 40, Color.yellow);
-        add(ball);
+        Player player = new Player(50, 50);
+        add(player);
     }
     
     public void update(){
