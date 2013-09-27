@@ -7,7 +7,7 @@ package com.RYB;
 
 
 import com.RYB.Objects.Entity;
-import com.RYB.Objects.GreyBlock;
+import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;

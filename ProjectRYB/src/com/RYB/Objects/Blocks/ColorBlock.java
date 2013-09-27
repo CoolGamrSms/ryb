@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.RYB.Objects;
+package com.RYB.Objects.Blocks;
 
 import java.awt.Color;
 import java.awt.Graphics;
