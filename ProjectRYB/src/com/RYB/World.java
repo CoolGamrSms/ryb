@@ -25,7 +25,7 @@ public class World {
    
     
     public World(){
-        Player player = new Player(50, 50);
+        Player player = new Player(50, 50, this);
         add(player);
         ColorBlock block1 = new ColorBlock(200,400,true,false,false);
         add(block1);
@@ -60,7 +60,9 @@ public class World {
              entities.get(i).render(g);
          }
     }
-    
+    public ArrayList getEntities() {
+        return entities;
+    }
     private void add(Entity e){
         entities.add(e);
     }

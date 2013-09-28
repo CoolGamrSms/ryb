@@ -15,6 +15,9 @@ public class Vector2f {
     }
     
     public static Vector2f add(Vector2f v1, Vector2f v2){
-        return new Vector2f(v1.x + v2.x, v1.y + v2.y);
+        return new Vector2f(v1.x+v2.x,v1.y+v2.y);
+    }
+    public static Vector2f multiply(Vector2f v1, float multiplier){
+        return new Vector2f(v1.x*multiplier,v1.y*multiplier);
     }
 }

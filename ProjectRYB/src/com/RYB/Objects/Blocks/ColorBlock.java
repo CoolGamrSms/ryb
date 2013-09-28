@@ -15,7 +15,7 @@ import com.RYB.Utils.Keyboard;
 public class ColorBlock extends GreyBlock{
     private Color color,tcolor;
     private boolean r=true, yc=true, b=true;
-    private boolean solid,rt,yt,bt;
+    private boolean rt,yt,bt;
     private boolean jPress,kPress,lPress = false;
     private Color orange = new Color(255,164,0);
     private Color purple = new Color(255,0,200);
@@ -51,7 +51,7 @@ public class ColorBlock extends GreyBlock{
     
     public void updateColor()
     {
-        solid  = true;
+        solid=true;
         rt = r&&ryb[0];
         yt = yc&&ryb[1];
         bt = b&&ryb[2];
@@ -74,15 +74,12 @@ public class ColorBlock extends GreyBlock{
             solid = false;
         }
     }
-    public boolean getSolid()
-    {
-        return solid;
-    }   
+     
     public void render(Graphics g){
         g.setColor(tcolor);
-        g.fillRect((int)x,(int)y, width, height);
+        g.fillRect((int)x-width/2,(int)y-height/2, width, height);
         g.setColor(color);
-        g.fillRect((int)x+2,(int)y+2, width-4, height-4);   
+        g.fillRect((int)x-width/2+2,(int)y-height/2+2, width-4, height-4);   
     }
     public void update(){
    

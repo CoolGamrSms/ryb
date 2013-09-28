@@ -21,7 +21,7 @@ public class GreyBlock extends Static {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.gray);
-        g.fillRect((int)x,(int)y,32,32);
+        g.fillRect((int)x-16,(int)y-16,32,32);
     }
 
     @Override

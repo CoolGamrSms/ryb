@@ -1,13 +1,15 @@
 package com.RYB.Objects;
 
+import com.RYB.World;
+
 /**
  *
  * @author Aaron
  */
 public abstract class ConstrainedDynamic extends Dynamic{
     
-    public ConstrainedDynamic(float x, float y, int width, int height){
-        super(x, y, width, height);
+    public ConstrainedDynamic(float x, float y, int width, int height, World world){
+        super(x, y, width, height, world);
     }
     
     public void handleConstraints(float min_x, float max_x, float min_y, float max_y, float min_dx, float max_dx, float min_dy, float max_dy){

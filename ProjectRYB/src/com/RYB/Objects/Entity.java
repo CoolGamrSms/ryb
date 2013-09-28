@@ -28,9 +28,8 @@ public abstract class Entity {
     }
     
     public boolean isOverlap(Entity other){
-        boolean xOverlap = (other.x > this.x && other.x < this.x + this.width) || (other.x + other.width > this.x && other.x + other.width > this.x + this.width);
-        boolean yOverlap = (other.y > this.y && other.y < this.y + this.height) || (other.y + other.height > this.y && other.y + other.height > this.y + this.height);   
-        
+        boolean xOverlap = (x+width/2>other.x-other.width/2 && x-width/2<other.x+other.width/2);
+        boolean yOverlap = (y+height/2>other.y-other.height/2 && y-height/2<other.y+other.height/2);
         return xOverlap && yOverlap;
     }
     
