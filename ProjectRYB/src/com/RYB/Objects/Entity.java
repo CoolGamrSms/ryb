@@ -33,11 +33,11 @@ public abstract class Entity {
         return xOverlap && yOverlap;
     }
     public float overlapX(Entity other) {
-        if(x+width/2>other.x-other.width/2 && x+width/2<other.x) return ((other.x-other.width/2)-(width/2));
+        if(x<other.x) return ((other.x-other.width/2)-(width/2));
         else return (other.x+other.width/2)+(width/2);
     }
     public float overlapY(Entity other) {
-        if(y+height/2>other.y-other.height/2 && y+height/2<other.y) return ((other.y-other.height/2)-(height/2));
+        if(y<other.y) return ((other.y-other.height/2)-(height/2));
         else return ((other.y+other.height/2)+(height/2));
     }
     public abstract void render(Graphics g);

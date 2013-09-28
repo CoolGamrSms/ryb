@@ -71,7 +71,7 @@ public class ColorBlock extends GreyBlock{
         else if(bt) color = Color.blue;
         else
         {
-            color = Color.white;//or black, what did we decide again?
+            color = white;//or black, what did we decide again?
             solid = false;
         }
     }
@@ -79,9 +79,9 @@ public class ColorBlock extends GreyBlock{
     @Override
     public void render(Graphics g){
         g.setColor(tcolor);
-        g.fillRect((int)x-width/2,(int)y-height/2, width, height);
+        g.drawRect((int)x-width/2,(int)y-height/2, width-1, height-1);
         g.setColor(color);
-        g.fillRect((int)x-width/2+2,(int)y-height/2+2, width-4, height-4);   
+        g.fillRect((int)x-width/2+1,(int)y-height/2+1, width-2, height-2);   
     }
     @Override
     public void update(){
