@@ -13,54 +13,61 @@ import com.RYB.Utils.Keyboard;
  * @author Kyle
  */
 public class ColorBlock extends GreyBlock{
-    public Color color;
-    public boolean r, yc, b;
-    private boolean solid;
+    private Color color,tcolor;
+    private boolean r=true, yc=true, b=true;
+    private boolean solid,rt,yt,bt;
     private boolean jPress,kPress,lPress = false;
-    //public boolean[] ryb; //commented out so code would compile
+    private Color orange = new Color(255,164,0);
+    private Color purple = new Color(255,0,200);
+    private boolean[] ryb = new boolean[3];
     
     public ColorBlock(int x, int y, boolean r, boolean yc, boolean b){
-        super(x,y);
-        
-        this.r = r;
-        this.yc = yc;
-        this.b = b;
-       
+        super(x,y);    
   
-        //ryb[0] = r;
-        //ryb[1] = yc;
-        //ryb[2] = b;
+        this.ryb[0] = r;
+        this.ryb[1] = yc;
+        this.ryb[2] = b;
         updateColor();
+        
+        rt = ryb[0];
+        yt = ryb[1];
+        bt = ryb[2];
+        if(rt) {
+            tcolor = Color.red;
+            if(yt) {
+                if(bt) tcolor = Color.black;
+                else tcolor = orange;
+            }
+            else if(bt) tcolor = purple;
+        }
+        else if(yt) {
+            if(bt) tcolor = Color.green;
+            else tcolor = Color.yellow;
+        }
+        else if(bt) tcolor = Color.blue;
+        else tcolor = Color.white;//or black, what did we decide again?
       
     }
     
     public void updateColor()
     {
-         solid  = true;
-          if(r){
+        solid  = true;
+        rt = r&&ryb[0];
+        yt = yc&&ryb[1];
+        bt = b&&ryb[2];
+        if(rt) {
             color = Color.red;
-            if(yc)
-            {
-                if(b)
-                    color = Color.black;
-                else
-                    color = new Color(255,164,0);
+            if(yt) {
+                if(bt) color = Color.black;
+                else color = orange;
             }
-            else if(b)
-                color = new Color(200,0,255);
+            else if(bt) color = purple;
         }
-        
-        else if(yc){
-            color = Color.yellow;
-            if(b){
-                color = Color.green;
-            }
+        else if(yt) {
+            if(bt) color = Color.green;
+            else color = Color.yellow;
         }
-        
-        else if(b){
-            color = Color.blue;
-          
-        }
+        else if(bt) color = Color.blue;
         else
         {
             color = Color.white;//or black, what did we decide again?
@@ -72,8 +79,10 @@ public class ColorBlock extends GreyBlock{
         return solid;
     }   
     public void render(Graphics g){
-        g.setColor(color);
+        g.setColor(tcolor);
         g.fillRect((int)x,(int)y, width, height);
+        g.setColor(color);
+        g.fillRect((int)x+2,(int)y+2, width-4, height-4);   
     }
     public void update(){
    
@@ -84,10 +93,7 @@ public class ColorBlock extends GreyBlock{
       if(jPress && Keyboard.KEY_J)
       {
           jPress=false;
-          if(r)
-              r=false;
-          else
-              r=true;
+          r=!r;
       }
        if(!Keyboard.KEY_K)
       {
@@ -96,10 +102,7 @@ public class ColorBlock extends GreyBlock{
       if(kPress && Keyboard.KEY_K)
       {
            kPress=false;
-          if(yc)
-              yc=false;
-          else
-              yc=true;
+           yc=!yc;
       }
         if(!Keyboard.KEY_L)
       {
@@ -108,10 +111,7 @@ public class ColorBlock extends GreyBlock{
       if(lPress && Keyboard.KEY_L)
       {
            lPress=false;
-          if(b)
-              b=false;
-          else
-              b=true;
+           b=!b;
       }
         updateColor();    
     }

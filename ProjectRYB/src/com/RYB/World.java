@@ -27,10 +27,23 @@ public class World {
     public World(){
         Player player = new Player(50, 50);
         add(player);
-        ColorBlock block = new ColorBlock(300,400,true,false,false);
-        add(block);
+        ColorBlock block1 = new ColorBlock(200,400,true,false,false);
+        add(block1);
+        ColorBlock block1a = new ColorBlock(232,400,true,false,false);
+        add(block1a);
+        ColorBlock block2 = new ColorBlock(300,300,false,true,false);
+        add(block2);
+        ColorBlock block2a = new ColorBlock(332,300,false,true,false);
+        add(block2a);
+        ColorBlock block3 = new ColorBlock(400,200,false,false,true);
+        add(block3);
+        ColorBlock block3a = new ColorBlock(432,200,false,false,true);
+        add(block3a);
+        ColorBlock block4 = new ColorBlock(500,200,true,true,true);
+        add(block4);
+        ColorBlock block4a = new ColorBlock(532,200,true,true,true);
+        add(block4a);
     }
-    
     public void update(){
         
         for(int i = 0; i < entities.size(); i++){           //TODO: possibly combine these for loops to make it more efficient.

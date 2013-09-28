@@ -15,13 +15,13 @@ import java.awt.Graphics;
 public class GreyBlock extends Static {
     
     public GreyBlock(float x, float y){
-        super(x, y, 64, 64);
+        super(x, y, 32, 32);
     }
     
     @Override
     public void render(Graphics g) {
         g.setColor(Color.gray);
-        g.fillRect((int)x,(int)y,64,64);
+        g.fillRect((int)x,(int)y,32,32);
     }
 
     @Override
