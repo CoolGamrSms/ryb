@@ -25,8 +25,6 @@ public class Player extends Dynamic{
     
     public Player(float x, float y, World world){
         super(x,y,48,64,world);
-        prevx = x;
-        prevy = y;
         c = Color.black;
     }
     
@@ -39,21 +37,21 @@ public class Player extends Dynamic{
     @Override
     public void update() {
         
+        if(velocity.y==0 && prevy<y) jumping = false;
         updateKinematics();
-        if(velocity.y==0) jumping = false;
         //Collision code coming as soon as I figure out how to list all statics
         
         //Key movements change velocity
        if(Keyboard.right){
            velocity.x+=MOVEMENT.x;
-           velocity.x = Math.min(velocity.x,2.4f);
+           velocity.x = Math.min(velocity.x,2f);
        }
        if(Keyboard.left){
            velocity.x-=MOVEMENT.x;
-           velocity.x = Math.max(velocity.x,-2.4f);
+           velocity.x = Math.max(velocity.x,-2f);
        }
        
-       if(Keyboard.space && !jumping){
+       if(Keyboard.space && !jumping && velocity.y==0){
                jumping = true;
                velocity.y = JUMP.y;
        }

@@ -19,6 +19,7 @@ public class ColorBlock extends GreyBlock{
     private boolean jPress,kPress,lPress = false;
     private Color orange = new Color(255,164,0);
     private Color purple = new Color(255,0,200);
+    private Color white = new Color(255,255,255,0);
     private boolean[] ryb = new boolean[3];
     
     public ColorBlock(int x, int y, boolean r, boolean yc, boolean b){
@@ -45,7 +46,7 @@ public class ColorBlock extends GreyBlock{
             else tcolor = Color.yellow;
         }
         else if(bt) tcolor = Color.blue;
-        else tcolor = Color.white;//or black, what did we decide again?
+        else tcolor = white;//or black, what did we decide again?
       
     }
     
@@ -75,12 +76,14 @@ public class ColorBlock extends GreyBlock{
         }
     }
      
+    @Override
     public void render(Graphics g){
         g.setColor(tcolor);
         g.fillRect((int)x-width/2,(int)y-height/2, width, height);
         g.setColor(color);
         g.fillRect((int)x-width/2+2,(int)y-height/2+2, width-4, height-4);   
     }
+    @Override
     public void update(){
    
       if(!Keyboard.KEY_J)
