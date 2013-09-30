@@ -77,4 +77,10 @@ public abstract class Dynamic extends Entity {
     public void applyForce(Vector2f force, float multiplier){
         acceleration = Vector2f.add(acceleration, Vector2f.multiply(force,multiplier));
     }
+    
+    @Override 
+    public void update(){
+        super.update();
+        updateKinematics();
+    }
 }
