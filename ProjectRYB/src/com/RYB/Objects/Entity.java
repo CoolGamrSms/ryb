@@ -1,16 +1,22 @@
 package com.RYB.Objects;
 
+import com.RYB.Graphics.Sprite;
 import java.awt.Graphics;
 
 public abstract class Entity {
-    public float x, y;
+    public float x, y;  //x and y coordinates are of the center of the entity
     protected int height, width;
+    
+    Sprite sprite;
+    
     
     public Entity(float x, float y, int width, int height){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        
+        this.sprite = null;
     }
     
     public float getX(){
@@ -40,6 +46,11 @@ public abstract class Entity {
         if(y<other.y) return ((other.y-other.height/2)-(height/2));
         else return ((other.y+other.height/2)+(height/2));
     }
-    public abstract void render(Graphics g);
-    public abstract void update();
+    public void render(Graphics g){
+        sprite.draw(g);
+    };
+    public void update(){
+        sprite.x = (int)x - width/2;
+        sprite.y = (int)y - height/2;
+    };
 }
