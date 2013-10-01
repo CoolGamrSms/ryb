@@ -4,9 +4,11 @@
  */
 package com.RYB.Objects.Blocks;
 
+import com.RYB.Objects.Entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import com.RYB.Utils.Keyboard;
+import com.RYB.World;
 
 /**
  *
@@ -17,19 +19,20 @@ public class ColorBlock extends GreyBlock{
     private boolean r=true, yc=true, b=true;
     private boolean rt,yt,bt;
     private boolean jPress,kPress,lPress = false;
+    private boolean n_up=false, n_down=false, n_left=false, n_right=false; //Neighbor variables
     private Color orange = new Color(255,164,0);
     private Color purple = new Color(255,0,200);
     private Color white = new Color(255,255,255,0);
     private boolean[] ryb = new boolean[3];
+    protected World world;
     
-    public ColorBlock(int x, int y, boolean r, boolean yc, boolean b){
+    public ColorBlock(int x, int y, boolean r, boolean yc, boolean b, World world){
         super(x,y);    
-  
+        this.world = world;
         this.ryb[0] = r;
         this.ryb[1] = yc;
         this.ryb[2] = b;
         updateColor();
-        
         rt = ryb[0];
         yt = ryb[1];
         bt = ryb[2];
@@ -49,7 +52,18 @@ public class ColorBlock extends GreyBlock{
         else tcolor = white;//or black, what did we decide again?
       
     }
-    
+    public void findNeighbors() { //Detect neighbor blocks to adjust outlines
+        for(int i = 0; i < world.getEntities().size(); i++){
+            Entity e = (Entity) world.getEntities().get(i);
+            if(e instanceof ColorBlock && e!=this) { //Loops through all static entities in the world
+                ColorBlock s = (ColorBlock)e;
+                if(s.y==y+height && s.x==x) n_down = true;
+                if(s.y==y-height && s.x==x) n_up = true;
+                if(s.x==x+width && s.y==y) n_right = true;
+                if(s.x==x-width && s.y==y) n_left = true;
+            }
+        }
+    }
     public void updateColor()
     {
         solid=true;
@@ -78,14 +92,18 @@ public class ColorBlock extends GreyBlock{
      
     @Override
     public void render(Graphics g){
-        g.setColor(tcolor);
-        g.drawRect((int)x-width/2,(int)y-height/2, width-1, height-1);
         g.setColor(color);
-        g.fillRect((int)x-width/2+1,(int)y-height/2+1, width-2, height-2);   
+        g.fillRect((int)x-width/2,(int)y-height/2, width, height); 
+        g.setColor(tcolor);
+        if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2, (int)y-height/2);
+        if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2, (int)x+width/2, (int)y+height/2);
+        if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2);
+        if(!n_right) g.drawLine((int)x+width/2, (int)y-height/2, (int)x+width/2, (int)y+height/2);
+          
     }
     @Override
     public void update(){
-   
+      psolid = solid;
       if(!Keyboard.KEY_J)
       { 
           jPress=true;

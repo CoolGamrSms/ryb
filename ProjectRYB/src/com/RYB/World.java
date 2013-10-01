@@ -84,32 +84,40 @@ public class World {
                         this.add(new GreyBlock(px, py));
                         break;
                     case(2): //red block
-                        this.add(new ColorBlock(px, py, true, false, false));
+                        this.add(new ColorBlock(px, py, true, false, false, this));
                         break;
                     case(3): //yellow block
-                        this.add(new ColorBlock(px, py, false, true, false));
+                        this.add(new ColorBlock(px, py, false, true, false, this));
                         break;
                     case(4): //blue block
-                        this.add(new ColorBlock(px, py, false, false, true));
+                        this.add(new ColorBlock(px, py, false, false, true, this));
                         break;
                     case(5): //orange block
-                        this.add(new ColorBlock(px, py, true, true, false));
+                        this.add(new ColorBlock(px, py, true, true, false, this));
                         break;
                     case(6): //purple block
-                        this.add(new ColorBlock(px, py, true, false, true));
+                        this.add(new ColorBlock(px, py, true, false, true, this));
                         break;
                     case(7): //green block
-                        this.add(new ColorBlock(px, py, false, true, true));
+                        this.add(new ColorBlock(px, py, false, true, true, this));
                         break;
                     case(8): //black block
-                        this.add(new ColorBlock(px, py, true, true, true));
+                        this.add(new ColorBlock(px, py, true, true, true, this));
                         break;
                     case(9): //white block
-                        this.add(new ColorBlock(px, py, false, false, false));
+                        this.add(new ColorBlock(px, py, false, false, false, this));
                         break;
                     default:
                         break;
                 }
+            }
+        }
+        //Execute neighbor finding code for all color blocks
+        for(int i = 0; i < entities.size(); i++){
+            Entity e = entities.get(i);
+            if(e instanceof ColorBlock) { //Loops through all static entities in the world
+                ColorBlock s = (ColorBlock)e;
+                s.findNeighbors();
             }
         }
     }
