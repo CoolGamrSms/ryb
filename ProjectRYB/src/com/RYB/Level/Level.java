@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.RYB.Objects;
+package com.RYB.Level;
 
 import com.RYB.Graphics.Sprite;
 import com.RYB.Utils.Vector2f;

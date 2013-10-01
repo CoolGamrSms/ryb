@@ -10,7 +10,7 @@ import com.RYB.Graphics.Sprite;
 import com.RYB.Objects.Entity;
 import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
-import com.RYB.Objects.Level;
+import com.RYB.Level.Level;
 import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;
