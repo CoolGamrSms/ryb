@@ -29,7 +29,10 @@ public class Level {
         levelGoal = new Vector2f(0,0);
         loadLevel(curLevel);
     }
-    
+    /*
+     * Scans through the txt file that corresponds to the current level
+     * reads line by line and loads various data based on file
+     */
     private void loadLevel(int curLevel){
         
         if(curLevel == 0){
@@ -65,6 +68,7 @@ public class Level {
                         //load tilesets in here
                     }
                     
+                    //This creates an ArrayList of Dimensions (gridWidth x gridHeight) with values indicating a specified block type
                     if(curLine.contains("data=")){
                         for(int r = 0; r < gridHeight; r++){
                             curLine = in.readLine();
@@ -77,6 +81,7 @@ public class Level {
                             }
                         }
                     }
+                    
                     
                     if(curLine.contains("# playerStart")){
                         in.readLine(); // type

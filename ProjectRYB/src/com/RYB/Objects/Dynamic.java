@@ -6,10 +6,10 @@ import com.RYB.World;
 import java.util.ArrayList;
 
 public abstract class Dynamic extends Entity {
-    public static final Vector2f GRAVITY  = new Vector2f(0, 0.02f),
-                                 FRICTION = new Vector2f(0.06f, 0),
-                                 MOVEMENT = new Vector2f(0.12f,0),
-                                 JUMP     = new Vector2f(0,-2.2f);
+    public static final Vector2f GRAVITY  = new Vector2f(0, 0.025f),
+                                 FRICTION = new Vector2f(0.04f, 0),
+                                 MOVEMENT = new Vector2f(0.1f,0),
+                                 JUMP     = new Vector2f(0,-2.4f);
     
     protected Vector2f velocity, acceleration;
     protected float prevx, prevy;

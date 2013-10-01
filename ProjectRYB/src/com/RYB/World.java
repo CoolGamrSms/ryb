@@ -27,6 +27,8 @@ public class World {
     
     public int curLevel = 0;
     
+    private Player player;
+    
     public World(){
         loadLevel(1);
     }
@@ -34,7 +36,13 @@ public class World {
         
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
-        }
+        }        
+    }
+    
+    private void nextLevel(){
+        resetWorld();
+        curLevel++;
+        loadLevel(curLevel);
     }
     
     public void render(Graphics g){
@@ -55,12 +63,16 @@ public class World {
         entities.add(e);
     }
     
+    private void resetWorld(){
+        entities.clear();
+    }
     private void loadLevel(int curLevel){
         Level level = new Level(curLevel);
         
         ArrayList<Integer> blocks = level.getBlocks();
         
-        add(new Player(level.getPlayerStart(), this));
+        player = new Player(level.getPlayerStart(), this);
+        add(player);
         
         for(int y = 0; y < level.getGridHeight(); y++){
             for(int x = 0; x < level.getGridWidth(); x++){

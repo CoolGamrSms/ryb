@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 /**
  *
  * @author Kyle
+ * 
  */
 public class Sprite {
     private BufferedImage bi;
@@ -27,9 +28,17 @@ public class Sprite {
             Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    /*
+     * Loads image into buffered image object
+     */
     private void loadImage(String path) throws IOException{
         bi = ImageIO.read(Sprite.class.getResource(path));
     }
+    
+    /*
+     * Draws the buffered image to the screen using graphics object
+     */
     public void draw(Graphics g){
         g.drawImage(bi, x, y, null);
     }
