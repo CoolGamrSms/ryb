@@ -8,6 +8,7 @@ import com.RYB.Graphics.Sprite;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
 import com.RYB.World;
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -34,6 +35,7 @@ public class Player extends Dynamic{
     
     @Override
     public void render(Graphics g) {
+        //g.fillRect((int)x-width/2, (int)y-height/2, w, h); //Uncomment to show bounding box
         super.render(g);
     }
 

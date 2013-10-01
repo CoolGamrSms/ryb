@@ -16,9 +16,7 @@ import com.RYB.World;
  */
 public class ColorBlock extends GreyBlock{
     private Color color,tcolor;
-    private boolean r=true, yc=true, b=true;
     private boolean rt,yt,bt;
-    private boolean jPress,kPress,lPress = false;
     private boolean n_up=false, n_down=false, n_left=false, n_right=false; //Neighbor variables
     private Color orange = new Color(255,164,0);
     private Color purple = new Color(255,0,200);
@@ -55,21 +53,23 @@ public class ColorBlock extends GreyBlock{
     public void findNeighbors() { //Detect neighbor blocks to adjust outlines
         for(int i = 0; i < world.getEntities().size(); i++){
             Entity e = (Entity) world.getEntities().get(i);
-            if(e instanceof ColorBlock && e!=this) { //Loops through all static entities in the world
+            if(e instanceof ColorBlock && e!=this) { //Loops through all ColorBlocks in the world
                 ColorBlock s = (ColorBlock)e;
-                if(s.y==y+height && s.x==x) n_down = true;
-                if(s.y==y-height && s.x==x) n_up = true;
-                if(s.x==x+width && s.y==y) n_right = true;
-                if(s.x==x-width && s.y==y) n_left = true;
+                if(s.compareColor(tcolor)) { //Check to see if they are the same color
+                    if(s.y==y+height && s.x==x) n_down = true;
+                    if(s.y==y-height && s.x==x) n_up = true;
+                    if(s.x==x+width && s.y==y) n_right = true;
+                    if(s.x==x-width && s.y==y) n_left = true;
+                }
             }
         }
     }
     public void updateColor()
     {
         solid=true;
-        rt = r&&ryb[0];
-        yt = yc&&ryb[1];
-        bt = b&&ryb[2];
+        rt = world.getR()&&ryb[0];
+        yt = world.getY()&&ryb[1];
+        bt = world.getB()&&ryb[2];
         if(rt) {
             color = Color.red;
             if(yt) {
@@ -89,49 +89,30 @@ public class ColorBlock extends GreyBlock{
             solid = false;
         }
     }
-     
+    public boolean compareColor(Color c) {
+        return (tcolor==c);
+    }
     @Override
     public void render(Graphics g){
         g.setColor(color);
         g.fillRect((int)x-width/2,(int)y-height/2, width, height); 
         g.setColor(tcolor);
-        if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2, (int)y-height/2);
-        if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2, (int)x+width/2, (int)y+height/2);
-        if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2);
-        if(!n_right) g.drawLine((int)x+width/2, (int)y-height/2, (int)x+width/2, (int)y+height/2);
+        //THICK LINES
+        if(!n_up) g.fillRect((int)x-width/2, (int)y-height/2, width, 2);
+        if(!n_down) g.fillRect((int)x-width/2, (int)y+height/2-2, width, 2);
+        if(!n_left) g.fillRect((int)x-width/2, (int)y-height/2, 2, height);
+        if(!n_right) g.fillRect((int)x+width/2-2, (int)y-height/2, 2, height);
+        //THIN LINES
+        //if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2-1, (int)y-height/2);
+        //if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2-1, (int)x+width/2-1, (int)y+height/2-1);
+        //if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2-1);
+        //if(!n_right) g.drawLine((int)x+width/2-1, (int)y-height/2, (int)x+width/2-1, (int)y+height/2-1);
           
     }
     @Override
     public void update(){
       psolid = solid;
-      if(!Keyboard.KEY_J)
-      { 
-          jPress=true;
-      }
-      if(jPress && Keyboard.KEY_J)
-      {
-          jPress=false;
-          r=!r;
-      }
-       if(!Keyboard.KEY_K)
-      {
-           kPress=true;
-      }
-      if(kPress && Keyboard.KEY_K)
-      {
-           kPress=false;
-           yc=!yc;
-      }
-        if(!Keyboard.KEY_L)
-      {
-           lPress=true;
-      }
-      if(lPress && Keyboard.KEY_L)
-      {
-           lPress=false;
-           b=!b;
-      }
-        updateColor();    
+      updateColor();    
     }
     
 }

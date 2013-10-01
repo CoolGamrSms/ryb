@@ -12,6 +12,7 @@ import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
 import com.RYB.Objects.Player;
+import com.RYB.Utils.Keyboard;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -29,11 +30,40 @@ public class World {
     
     private Player player;
     
+    private boolean r=true,y=true,b=true; //Global RYB values
+    private boolean jPress,kPress,lPress = false;
+    
     public World(){
         loadLevel(1);
     }
     public void update(){
-        
+              if(!Keyboard.KEY_J)
+      { 
+          jPress=true;
+      }
+      if(jPress && Keyboard.KEY_J)
+      {
+          jPress=false;
+          r=!r;
+      }
+       if(!Keyboard.KEY_K)
+      {
+           kPress=true;
+      }
+      if(kPress && Keyboard.KEY_K)
+      {
+           kPress=false;
+           y=!y;
+      }
+        if(!Keyboard.KEY_L)
+      {
+           lPress=true;
+      }
+      if(lPress && Keyboard.KEY_L)
+      {
+           lPress=false;
+           b=!b;
+      }
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
         }        
@@ -58,6 +88,15 @@ public class World {
     }
     public ArrayList getEntities() {
         return entities;
+    }
+    public boolean getR() {
+        return r;
+    }
+    public boolean getY() {
+        return y;
+    }
+    public boolean getB() {
+        return b;
     }
     private void add(Entity e){
         entities.add(e);
@@ -115,7 +154,7 @@ public class World {
         //Execute neighbor finding code for all color blocks
         for(int i = 0; i < entities.size(); i++){
             Entity e = entities.get(i);
-            if(e instanceof ColorBlock) { //Loops through all static entities in the world
+            if(e instanceof ColorBlock) { //Loops through all color blocks in the world
                 ColorBlock s = (ColorBlock)e;
                 s.findNeighbors();
             }
