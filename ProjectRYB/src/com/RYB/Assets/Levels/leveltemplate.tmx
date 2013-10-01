@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="19" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tilesheet" tilewidth="32" tileheight="32">
+  <image source="../../../../../../../../../Desktop/tilesheet.png" width="64" height="256"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BgAOsQtoMJioeTHejiw8UOJjzy1LCDmgDZDmYopqUdtALUtINxmGAA/LQAfQ==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="25" height="19">
+  <properties>
+   <property name="playerstart" value=""/>
+  </properties>
+  <object name="playerStart" type="int" x="64" y="127"/>
+  <object name="levelGoal" type="int" x="473" y="311"/>
+ </objectgroup>
+</map>
