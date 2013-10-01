@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 public class Display extends Canvas implements Runnable{
 
     public static int width = 800;
-    public static int height = width * 9 / 16;
+    public static int height = 32 * 19;
     private Dimension size;
     
     private String title;

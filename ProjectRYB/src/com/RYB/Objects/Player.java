@@ -6,8 +6,8 @@ package com.RYB.Objects;
 
 import com.RYB.Graphics.Sprite;
 import com.RYB.Utils.Keyboard;
+import com.RYB.Utils.Vector2f;
 import com.RYB.World;
-import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -23,14 +23,16 @@ public class Player extends Dynamic{
     
     public Player(float x, float y, World world){
         super(x,y,32,48,world);
-        
-        
-        //set sprite = to a new Sprite object with a path like this
-        //should work with any image file, supports Alpha
-        //every entity has a sprite object all you have to do is set it and call super.render(g) so it is drawn to the screen.
-        //TODO: Animation and sprite sheets
-        // -Kyle
-        sprite = new Sprite("../Assets/player.png");
+        loadPlayer();
+    }
+    
+    public Player(Vector2f startPosition, World world){
+        super(startPosition.x, startPosition.y, 32, 48, world);
+        loadPlayer();
+    }
+    
+    private void loadPlayer(){
+        sprite = new Sprite("../Assets/player.png");   
     }
     
     @Override
@@ -56,7 +58,7 @@ public class Player extends Dynamic{
            velocity.x = Math.max(velocity.x,-2f);
        }
        
-       if(Keyboard.space && !jumping && velocity.y==0){
+       if((Keyboard.up || Keyboard.space) && !jumping && velocity.y==0){
                jumping = true;
                velocity.y = JUMP.y;
        }

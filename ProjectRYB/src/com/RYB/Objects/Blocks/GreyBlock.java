@@ -16,6 +16,7 @@ public class GreyBlock extends Static {
     
     public GreyBlock(float x, float y){
         super(x, y, 32, 32);
+        solid = true;
     }
     
     @Override
