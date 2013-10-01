@@ -16,9 +16,6 @@ import java.awt.Graphics;
  */
 public class Player extends Dynamic{
 
-    private float max_spd = 1.6f; //Max velocity of the ball
-    private float acc = 0.06f; //Horizontal movement acceleration
-    private float fric = 0.06f; //Deceleration when not moving
     private boolean jumping = false;
     
     public Player(float x, float y, World world){
@@ -51,11 +48,11 @@ public class Player extends Dynamic{
         //Key movements change velocity
        if(Keyboard.right){
            velocity.x+=MOVEMENT.x;
-           velocity.x = Math.min(velocity.x,2f);
+           velocity.x = Math.min(velocity.x,1.6f);
        }
        if(Keyboard.left){
            velocity.x-=MOVEMENT.x;
-           velocity.x = Math.max(velocity.x,-2f);
+           velocity.x = Math.max(velocity.x,-1.6f);
        }
        
        if((Keyboard.up || Keyboard.space) && !jumping && velocity.y==0){

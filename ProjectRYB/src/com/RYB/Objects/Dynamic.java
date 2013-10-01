@@ -6,10 +6,10 @@ import com.RYB.World;
 import java.util.ArrayList;
 
 public abstract class Dynamic extends Entity {
-    public static final Vector2f GRAVITY  = new Vector2f(0, 0.025f),
-                                 FRICTION = new Vector2f(0.04f, 0),
-                                 MOVEMENT = new Vector2f(0.1f,0),
-                                 JUMP     = new Vector2f(0,-2.4f);
+    public static final Vector2f GRAVITY  = new Vector2f(0, 0.014f),
+                                 FRICTION = new Vector2f(0.06f, 0),
+                                 MOVEMENT = new Vector2f(0.12f,0),
+                                 JUMP     = new Vector2f(0,-2f);
     
     protected Vector2f velocity, acceleration;
     protected float prevx, prevy;
@@ -34,7 +34,7 @@ public abstract class Dynamic extends Entity {
     
     public void updateKinematics(){
         velocity.x = Math.signum(velocity.x)*(Math.abs(velocity.x)-FRICTION.x); //Apply friction
-        if(Math.abs(velocity.x)<FRICTION.x) velocity.x = 0; //Round friction
+        if(Math.abs(velocity.x)*3<FRICTION.x) velocity.x = 0; //Round friction
         velocity.x += acceleration.x;
         velocity.y += acceleration.y;
         
@@ -49,6 +49,7 @@ public abstract class Dynamic extends Entity {
             if(e instanceof Static) { //Loops through all static entities in the world
                 Static s = (Static)e;
                 if(this.isOverlap(s) && s.getSolid()) { //Check if the block is solid and overlapping
+                    if(!s.wasSolid()) System.out.println("Crushed"); //We need to decide what to do when something gets crushed
                     y = this.overlapY(s); //Snap to edge of colliding block
                     prevy = y-velocity.y; //For player class to recognize jumping should be true
                     velocity.y = 0;
@@ -62,17 +63,13 @@ public abstract class Dynamic extends Entity {
             if(e instanceof Static) { //Loop through all statics in the world
                 Static s = (Static)e;
                 if(this.isOverlap(s) && s.getSolid()) { //Check for collision with a solid
+                    if(!s.wasSolid()) System.out.println("Crushed");
                     x = this.overlapX(s); //Snap to edge of colliding block
                     velocity.x = 0;
                 }
             }
         }
         
-        if(y+h/2>Display.height) { //Possibly temporary bottom of screen detect
-            y=Display.height-h/2;
-            prevy = y-velocity.y;
-            velocity.y = 0;
-        }
     }  
     public void applyForce(Vector2f force, float multiplier){
         acceleration = Vector2f.add(acceleration, Vector2f.multiply(force,multiplier));
