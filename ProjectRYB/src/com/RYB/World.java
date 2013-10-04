@@ -8,6 +8,7 @@ package com.RYB;
 
 import com.RYB.Graphics.Sprite;
 import com.RYB.Objects.Entity;
+import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
@@ -29,6 +30,7 @@ public class World {
     public int curLevel = 0;
     
     private Player player;
+    private End end;
     
     private boolean r=true,y=true,b=true; //Global RYB values
     private boolean jPress,kPress,lPress = false;
@@ -68,8 +70,12 @@ public class World {
             entities.get(i).update();
         }        
     }
-    
-    private void nextLevel(){
+   
+    public Player getPlayer()
+    {
+        return player;
+    }
+    public void nextLevel(){
         resetWorld();
         curLevel++;
         loadLevel(curLevel);
@@ -112,6 +118,8 @@ public class World {
         
         player = new Player(level.getPlayerStart(), this);
         add(player);
+        end = new End(level.getLevelGoal(),this);
+        add(end);
         
         for(int y = 0; y < level.getGridHeight(); y++){
             for(int x = 0; x < level.getGridWidth(); x++){
@@ -146,6 +154,7 @@ public class World {
                     case(9): //white block
                         this.add(new ColorBlock(px, py, false, false, false, this));
                         break;
+                   
                     default:
                         break;
                 }
