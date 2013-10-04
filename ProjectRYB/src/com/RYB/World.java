@@ -114,6 +114,9 @@ public class World {
     }
     
     private void resetWorld(){
+        r=true;
+        y=true;
+        b=true;
         entities.clear();
     }
     private void loadLevel(int curLevel){
