@@ -13,4 +13,5 @@ public interface World {
     void reset();
     //void load(); ??
     //void save(); ??
+
 }

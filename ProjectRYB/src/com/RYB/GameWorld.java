@@ -28,6 +28,7 @@ public class GameWorld implements World{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
+    public int maxLevel = 1;
     
     private Player player;
     private End end;
@@ -78,6 +79,10 @@ public class GameWorld implements World{
     public void nextLevel(){
         reset();
         curLevel++;
+        if(curLevel>maxLevel)
+        {
+            curLevel = maxLevel;
+        }
         loadLevel(curLevel);
     }
     
@@ -109,6 +114,9 @@ public class GameWorld implements World{
     }
     
     public void reset(){
+        r=true;
+        y=true;
+        b=true;
         entities.clear();
     }
     private void loadLevel(int curLevel){
@@ -169,4 +177,5 @@ public class GameWorld implements World{
             }
         }
     }
+        
 }
