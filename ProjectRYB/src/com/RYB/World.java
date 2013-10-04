@@ -28,6 +28,7 @@ public class World {
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
+    public int maxLevel = 1;
     
     private Player player;
     private End end;
@@ -78,6 +79,10 @@ public class World {
     public void nextLevel(){
         resetWorld();
         curLevel++;
+        if(curLevel>maxLevel)
+        {
+            curLevel = maxLevel;
+        }
         loadLevel(curLevel);
     }
     
