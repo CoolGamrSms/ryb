@@ -115,6 +115,10 @@ public class LevelBuilder {
                 out.write(command);
                 out.newLine();
             }
+            
+            out.close();
+            writer.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(LevelBuilder.class.getName()).log(Level.SEVERE, null, ex);
         }
