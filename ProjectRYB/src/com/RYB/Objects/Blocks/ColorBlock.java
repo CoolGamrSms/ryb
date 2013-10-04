@@ -103,10 +103,10 @@ public class ColorBlock extends GreyBlock{
         if(!n_left) g.fillRect((int)x-width/2, (int)y-height/2, 2, height);
         if(!n_right) g.fillRect((int)x+width/2-2, (int)y-height/2, 2, height);
         //THIN LINES
-        //if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2-1, (int)y-height/2);
-        //if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2-1, (int)x+width/2-1, (int)y+height/2-1);
-        //if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2-1);
-        //if(!n_right) g.drawLine((int)x+width/2-1, (int)y-height/2, (int)x+width/2-1, (int)y+height/2-1);
+       /* if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2-1, (int)y-height/2);
+        if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2-1, (int)x+width/2-1, (int)y+height/2-1);
+        if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2-1);
+        if(!n_right) g.drawLine((int)x+width/2-1, (int)y-height/2, (int)x+width/2-1, (int)y+height/2-1);*/
           
     }
     @Override

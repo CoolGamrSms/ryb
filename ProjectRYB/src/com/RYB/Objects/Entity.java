@@ -7,7 +7,7 @@ public abstract class Entity {
     public float x, y;  //x and y coordinates are of the center of the entity
     protected int height, width;
     
-    Sprite sprite;
+    protected Sprite sprite;
     
     
     public Entity(float x, float y, int width, int height){
@@ -47,10 +47,13 @@ public abstract class Entity {
         else return ((other.y+other.height/2)+(height/2));
     }
     public void render(Graphics g){
-        sprite.draw(g);
+        if(sprite != null)
+            sprite.draw(g);
     };
     public void update(){
-        sprite.x = (int)x - width/2;
-        sprite.y = (int)y - height/2;
+        if(sprite != null){
+             sprite.x = (int)x - width/2;
+             sprite.y = (int)y - height/2;
+        }
     };
 }

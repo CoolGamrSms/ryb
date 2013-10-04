@@ -40,7 +40,7 @@ public class Level {
         }
         else{
             URL path = Level.class.getResource(new String("../Assets/Levels/level" + Integer.toString(curLevel) + ".txt"));
-            
+            System.out.println(curLevel);
             try {
                 
                 FileInputStream is;

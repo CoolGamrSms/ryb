@@ -38,5 +38,5 @@ location=2,3.96875,0,0
 [Object Layer 1]
 # levelGoal
 type=int
-location=14.7812,9.71875,0,0
+location=22,7,0,0
 
