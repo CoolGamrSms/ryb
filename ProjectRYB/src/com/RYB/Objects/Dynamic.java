@@ -2,7 +2,7 @@ package com.RYB.Objects;
 
 import com.RYB.Display;
 import com.RYB.Utils.Vector2f;
-import com.RYB.GameWorld;
+import com.RYB.World;
 import java.util.ArrayList;
 
 public abstract class Dynamic extends Entity {
@@ -14,8 +14,8 @@ public abstract class Dynamic extends Entity {
     protected Vector2f velocity, acceleration;
     protected float prevx, prevy;
     protected int w,h;
-    protected GameWorld world;
-    public Dynamic(float x, float y, int width, int height, GameWorld world){
+    protected World world;
+    public Dynamic(float x, float y, int width, int height, World world){
         super(x, y, width, height);
         w = width;
         h = height;

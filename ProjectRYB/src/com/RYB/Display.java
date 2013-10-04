@@ -36,7 +36,7 @@ public class Display extends Canvas implements Runnable{
     
     private String title;
     private JFrame frame;
-    private World world;
+    private DisplayWorld world;
     
     private Thread gameThread;
     private boolean running = false;
@@ -50,7 +50,7 @@ public class Display extends Canvas implements Runnable{
         size = new Dimension(width, height);
         this.title = title;
         
-        world = new GameWorld();
+        world = new World();
         input = new Keyboard();
         addKeyListener(input);
         
@@ -114,11 +114,11 @@ public class Display extends Canvas implements Runnable{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (world instanceof GameWorld){
+            if (world instanceof World){
                 world = new LevelWorld(Display.this);
             } 
             else if (world instanceof LevelWorld){
-                world = new GameWorld();
+                world = new World();
             }
         }
         

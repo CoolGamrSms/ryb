@@ -1,11 +1,11 @@
 package com.RYB.Level;
 
 import com.RYB.Display;
-import com.RYB.GameWorld;
+import com.RYB.World;
 import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Entity;
 import com.RYB.Utils.Vector2f;
-import com.RYB.World;
+import com.RYB.DisplayWorld;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -15,12 +15,12 @@ import java.awt.event.MouseListener;
  *
  * @author Aaron
  */
-public class LevelWorld implements World, MouseListener{
+public class LevelWorld implements DisplayWorld, MouseListener{
     private Color bgColor = Color.white;
     private LevelBuilder builder;
     
     private Display parent;
-    private GameWorld tempWorld;
+    private World tempWorld;
     
     private static final int blockSize = 32;    //based from current value in GreyBlock.java
     
@@ -28,7 +28,7 @@ public class LevelWorld implements World, MouseListener{
     public LevelWorld(Display parent){
         this.parent = parent;
         parent.addMouseListener(this);
-        tempWorld = new GameWorld();
+        tempWorld = new World();
         
         builder = new LevelBuilder(parent.getSize().width / blockSize, parent.getSize().width / blockSize, blockSize);
     }

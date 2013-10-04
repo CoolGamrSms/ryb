@@ -3,7 +3,7 @@ package com.RYB.Objects.Blocks;
 import com.RYB.Graphics.Sprite;
 import com.RYB.Objects.Entity;
 import com.RYB.Utils.Vector2f;
-import com.RYB.GameWorld;
+import com.RYB.World;
 import java.awt.Graphics;
 /**
  *
@@ -14,17 +14,17 @@ import java.awt.Graphics;
 
 public class End extends Entity {
     
-    GameWorld world;
+    World world;
 
     
-    public End(float x, float y, GameWorld w)
+    public End(float x, float y, World w)
     {
         super(x,y, 32, 32);
         loadEnd();
         world = w;
         
     }
-    public End(Vector2f Position, GameWorld w){
+    public End(Vector2f Position, World w){
         super(Position.x, Position.y, 32, 32);
         loadEnd();
         world = w;

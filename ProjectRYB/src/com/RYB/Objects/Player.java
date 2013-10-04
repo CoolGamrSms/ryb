@@ -7,7 +7,7 @@ package com.RYB.Objects;
 import com.RYB.Graphics.Sprite;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
-import com.RYB.GameWorld;
+import com.RYB.World;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -19,12 +19,12 @@ public class Player extends Dynamic{
 
     private boolean jumping = false;
     
-    public Player(float x, float y, GameWorld world){
+    public Player(float x, float y, World world){
         super(x,y,32,48,world);
         loadPlayer();
     }
     
-    public Player(Vector2f startPosition, GameWorld world){
+    public Player(Vector2f startPosition, World world){
         super(startPosition.x, startPosition.y, 32, 48, world);
         loadPlayer();
     }
