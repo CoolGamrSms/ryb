@@ -1,6 +1,6 @@
 package com.RYB.Objects;
 
-import com.RYB.World;
+import com.RYB.GameWorld;
 
 /**
  *
@@ -8,7 +8,7 @@ import com.RYB.World;
  */
 public abstract class ConstrainedDynamic extends Dynamic{
     
-    public ConstrainedDynamic(float x, float y, int width, int height, World world){
+    public ConstrainedDynamic(float x, float y, int width, int height, GameWorld world){
         super(x, y, width, height, world);
     }
     

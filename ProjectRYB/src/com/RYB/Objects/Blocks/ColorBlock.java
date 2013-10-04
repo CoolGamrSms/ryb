@@ -8,7 +8,7 @@ import com.RYB.Objects.Entity;
 import java.awt.Color;
 import java.awt.Graphics;
 import com.RYB.Utils.Keyboard;
-import com.RYB.World;
+import com.RYB.GameWorld;
 
 /**
  *
@@ -22,9 +22,9 @@ public class ColorBlock extends GreyBlock{
     private Color purple = new Color(255,0,200);
     private Color white = new Color(255,255,255,0);
     private boolean[] ryb = new boolean[3];
-    protected World world;
+    protected GameWorld world;
     
-    public ColorBlock(int x, int y, boolean r, boolean yc, boolean b, World world){
+    public ColorBlock(int x, int y, boolean r, boolean yc, boolean b, GameWorld world){
         super(x,y);    
         this.world = world;
         this.ryb[0] = r;

@@ -5,6 +5,7 @@ package com.RYB;
  * and open the template in the editor.
  */
 
+import com.RYB.Level.LevelWorld;
 import com.RYB.Utils.Console;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Mouse;
@@ -12,8 +13,16 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -26,14 +35,11 @@ public class Display extends Canvas implements Runnable{
     private Dimension size;
     
     private String title;
-    
     private JFrame frame;
+    private World world;
     
     private Thread gameThread;
     private boolean running = false;
-    
-    private World world;
-    
     private int fps = 0;
     
     public static Keyboard input;
@@ -44,7 +50,7 @@ public class Display extends Canvas implements Runnable{
         size = new Dimension(width, height);
         this.title = title;
         
-        world = new World();
+        world = new GameWorld();
         input = new Keyboard();
         addKeyListener(input);
         
@@ -57,6 +63,7 @@ public class Display extends Canvas implements Runnable{
         frame = new JFrame(this.title);
         frame.setResizable(false);
         frame.add(this);
+        frame.setJMenuBar(createWorldMenu());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,6 +71,57 @@ public class Display extends Canvas implements Runnable{
     }
     public Dimension getSize(){
         return size;
+    }
+    private JMenuBar createWorldMenu(){
+        JMenuBar menu = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem levelEditor = new JMenuItem("Level Editor");
+        
+        //Mnemonics
+        file.setMnemonic(KeyEvent.VK_F);
+        levelEditor.setMnemonic(KeyEvent.VK_L);
+        
+        //Adding Components
+        file.add(levelEditor);
+        menu.add(file);
+        
+        //Listeners
+        MenuListener listener = new MenuListener();
+        levelEditor.addActionListener(listener);
+        
+        return menu;
+    }
+    private JMenuBar createLevelEditorMenu(){
+        JMenuBar menu = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem gameWorld = new JMenuItem("Game World");
+        
+        //Mnemonics
+        file.setMnemonic(KeyEvent.VK_F);
+        gameWorld.setMnemonic(KeyEvent.VK_G);
+        
+        //Adding Components
+        file.add(gameWorld);
+        menu.add(file);
+        
+        //Listeners
+        MenuListener listener = new MenuListener();
+        gameWorld.addActionListener(listener);
+        
+        return menu;        
+    }
+    private class MenuListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (world instanceof GameWorld){
+                world = new LevelWorld(Display.this);
+            } 
+            else if (world instanceof LevelWorld){
+                world = new GameWorld();
+            }
+        }
+        
     }
     
     private synchronized void start(){
@@ -73,7 +131,6 @@ public class Display extends Canvas implements Runnable{
         gameThread = new Thread(this, "GameThread");
         gameThread.start();
     }
-    
     private synchronized void stop(){
         if(!running) return;
 		running = false;
@@ -112,7 +169,6 @@ public class Display extends Canvas implements Runnable{
             }
         }
     }
- 
     private void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -133,7 +189,6 @@ public class Display extends Canvas implements Runnable{
         bs.show();
         
     }
-    
     private void update(){
         world.update();
         input.update();

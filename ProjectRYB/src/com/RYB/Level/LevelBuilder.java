@@ -49,13 +49,23 @@ public class LevelBuilder {
     
     public void addEntity(int row, int col, Entity e){
         grid[row][col] = e;
+        
+        Vector2f position = getPositionVector(row, col);
+        e.x = position.x;
+        e.y = position.y;
     }
     public void removeEntity(int row, int col){
         grid[row][col] = null;
     }
+    public Entity[][] getEntities(){
+        return grid;
+    }
     
     public Vector2f getCellVector(int xPressed, int yPressed){
         return new Vector2f( (int) xPressed / tileLength, (int) yPressed / tileLength );
+    }
+    public Vector2f getPositionVector(int r, int c){
+        return new Vector2f( r * tileLength, c * tileLength );
     }
     
     public void output(File level){
