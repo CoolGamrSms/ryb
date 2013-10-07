@@ -69,6 +69,8 @@ public class Display extends Canvas implements Runnable{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+    
+    //Frame Functions
     public Dimension getSize(){
         return size;
     }
@@ -114,11 +116,17 @@ public class Display extends Canvas implements Runnable{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            //If playing game...go to level building
             if (world instanceof World){
                 world = new LevelWorld(Display.this);
+                frame.setJMenuBar(createLevelEditorMenu());
+                frame.pack();
             } 
+            //If level building...go back to game world
             else if (world instanceof LevelWorld){
                 world = new World();
+                frame.setJMenuBar(createWorldMenu());
+                frame.pack();
             }
         }
         
