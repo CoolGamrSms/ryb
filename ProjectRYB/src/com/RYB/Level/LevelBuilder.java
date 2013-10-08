@@ -62,10 +62,10 @@ public class LevelBuilder {
     }
     
     public Vector2f getCellVector(int xPressed, int yPressed){
-        return new Vector2f( (int) xPressed / tileLength, (int) yPressed / tileLength );
+        return new Vector2f( (int) ((xPressed) / tileLength), (int) ((yPressed) / tileLength) );
     }
     public Vector2f getPositionVector(int r, int c){
-        return new Vector2f( r * tileLength, c * tileLength );
+        return new Vector2f( r * tileLength + tileLength/2, c * tileLength + tileLength/2 );
     }
     
     public void output(File level){

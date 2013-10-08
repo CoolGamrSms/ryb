@@ -5,6 +5,7 @@ package com.RYB;
  * and open the template in the editor.
  */
 
+import com.RYB.Level.LevelBuilder;
 import com.RYB.Level.LevelWorld;
 import com.RYB.Utils.Console;
 import com.RYB.Utils.Keyboard;
@@ -88,8 +89,15 @@ public class Display extends Canvas implements Runnable{
         menu.add(file);
         
         //Listeners
-        MenuListener listener = new MenuListener();
-        levelEditor.addActionListener(listener);
+        levelEditor.addActionListener(new ActionListener(){ //ActionListener for GameWorld Option
+            @Override
+            public void actionPerformed(ActionEvent e){
+                world.reset();
+                world = new LevelWorld(Display.this);
+                frame.setJMenuBar(createLevelEditorMenu());
+                frame.pack();
+            }
+        });
         
         return menu;
     }
@@ -97,6 +105,11 @@ public class Display extends Canvas implements Runnable{
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenuItem gameWorld = new JMenuItem("Game World");
+        JMenuItem save = new JMenuItem("Save...");
+        JMenuItem testLevel = new JMenuItem("Test Level");
+        JMenu addItem = new JMenu("Add...");
+        JMenuItem playerStart = new JMenuItem("Player Start");
+        JMenuItem levelGoal = new JMenuItem("Level Goal");
         
         //Mnemonics
         file.setMnemonic(KeyEvent.VK_F);
@@ -104,32 +117,63 @@ public class Display extends Canvas implements Runnable{
         
         //Adding Components
         file.add(gameWorld);
+        file.addSeparator();
+        file.add(save);
+        file.add(testLevel);
+        file.add(addItem);
+        addItem.add(playerStart);
+        addItem.add(levelGoal);
         menu.add(file);
         
         //Listeners
-        MenuListener listener = new MenuListener();
-        gameWorld.addActionListener(listener);
-        
-        return menu;        
-    }
-    private class MenuListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //If playing game...go to level building
-            if (world instanceof World){
-                world = new LevelWorld(Display.this);
-                frame.setJMenuBar(createLevelEditorMenu());
-                frame.pack();
-            } 
-            //If level building...go back to game world
-            else if (world instanceof LevelWorld){
+        gameWorld.addActionListener(new ActionListener(){ //ActionListener for GameWorld Option
+            @Override
+            public void actionPerformed(ActionEvent e){
+                world.reset();
                 world = new World();
                 frame.setJMenuBar(createWorldMenu());
                 frame.pack();
             }
-        }
+        });
         
+        save.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               //Save...
+                //It will be hard to figure out how to save levels and play without rebuilding the entire project...
+                //world.saveLevel(null);
+            }
+            
+        });
+        
+        testLevel.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Test Level...
+            }
+            
+        });
+        
+        playerStart.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Allow user to enter a player start location
+            }
+            
+        });
+        
+         levelGoal.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Allow user to enter a level goal location
+            }
+            
+        });
+        
+        return menu;        
     }
     
     private synchronized void start(){

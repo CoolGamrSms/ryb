@@ -8,10 +8,9 @@ import com.RYB.Utils.Vector2f;
 import com.RYB.DisplayWorld;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Line2D;
+import java.io.File;
 
 /**
  *
@@ -67,7 +66,8 @@ public class LevelWorld implements DisplayWorld{
             for (int c = 0; c < builder.getColumns(); c++){
                 x = r*blockSize;
                 y = c*blockSize;
-                g.drawLine(x, y, x, y);                
+                g.drawLine(x, y, x + blockSize, y);  
+                g.drawLine(x, y, x, y + blockSize);  
             }
         }
     }
@@ -75,25 +75,30 @@ public class LevelWorld implements DisplayWorld{
     public void reset() {
     }
 
+    @Override
+    public void saveLevel(File file) {
+        builder.output(file);
+    }
+
     //Handles mouse click
     private class MouseBuilder implements MouseListener{
-        
+         
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             Vector2f posClicked = builder.getCellVector(e.getX(), e.getY());
             if (posClicked.x < builder.getRows() && posClicked.y < builder.getColumns()){
-                builder.addEntity( (int) posClicked.x, (int) posClicked.y, new ColorBlock(blockSize, blockSize, true, false, false, tempWorld));   
-            }        
+                builder.addEntity( (int) (posClicked.x), (int) (posClicked.y), new ColorBlock(blockSize, blockSize, true, false, false, tempWorld));   
+            }     
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
         }
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mouseEntered(MouseEvent e) {
         }        
         @Override
-        public void mouseEntered(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) {
         }
         @Override
         public void mouseExited(MouseEvent e) {

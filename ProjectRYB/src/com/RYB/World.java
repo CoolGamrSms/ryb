@@ -16,6 +16,7 @@ import com.RYB.Objects.Player;
 import com.RYB.Utils.Keyboard;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +28,7 @@ public class World implements DisplayWorld{
     Sprite bgImage = new Sprite("../Assets/SkyBackground.jpg");
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
-    public int curLevel = 0;
+    public int curLevel = 1;
     public int maxLevel = 1;
     
     private Player player;
@@ -37,7 +38,7 @@ public class World implements DisplayWorld{
     private boolean jPress,kPress,lPress = false;
     
     public World(){
-        loadLevel(1);
+        loadLevel(curLevel);
     }
     public void update(){
               if(!Keyboard.KEY_J)
@@ -176,6 +177,11 @@ public class World implements DisplayWorld{
                 s.findNeighbors();
             }
         }
+    }
+
+    @Override
+    public void saveLevel(File file) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
         
 }

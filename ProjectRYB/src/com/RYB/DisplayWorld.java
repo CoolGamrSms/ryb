@@ -1,6 +1,7 @@
 package com.RYB;
 
 import java.awt.Graphics;
+import java.io.File;
 
 /**
  *
@@ -11,6 +12,7 @@ public interface DisplayWorld {
     void render(Graphics g);
     
     void reset();
+    public abstract void saveLevel(File file);
     //void load(); ??
     //void save(); ??
 

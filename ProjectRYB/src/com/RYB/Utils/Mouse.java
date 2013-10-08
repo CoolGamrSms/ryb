@@ -14,13 +14,20 @@ import javax.swing.event.MouseInputListener;
 public class Mouse implements MouseInputListener
 {
     private boolean enabled = false;
-    public int x, y;
-    public boolean down = false;
+    private static int x, y;
+    private static boolean down = false;
+    private static boolean clicked = false;
+    
+    public static Vector2f getCoords(){
+        return new Vector2f((float) x, (float) y);
+    }
+    
+    public static boolean clicked(){ //a click is a press and release
+        return down;
+    }
     
     public void mouseDragged(MouseEvent e){
-        x = e.getX();
-        y = e.getY();
-        down = true;
+        
     }
 
     @Override
@@ -35,17 +42,23 @@ public class Mouse implements MouseInputListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        x = e.getX();
+        y = e.getY();
+        
+        if(clicked)
+            clicked = false;
+        else
+            clicked = true;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        down = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        down = false;
     }
 
     @Override
