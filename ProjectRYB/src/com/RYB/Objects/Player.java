@@ -64,4 +64,9 @@ public class Player extends Dynamic{
       
     }
     
+    public void reset(){
+        velocity.x = 0;
+        velocity.y = 0;
+    }
+    
 }

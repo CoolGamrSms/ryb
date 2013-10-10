@@ -14,6 +14,7 @@ import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
 import com.RYB.Objects.Player;
 import com.RYB.Utils.Keyboard;
+import com.RYB.Utils.Vector2f;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
@@ -32,6 +33,7 @@ public class World implements DisplayWorld{
     public int maxLevel = 1;
     
     private Player player;
+    private Vector2f playerStart;
     private End end;
     
     private boolean r=true,y=true,b=true; //Global RYB values
@@ -67,6 +69,9 @@ public class World implements DisplayWorld{
       {
            lPress=false;
            b=!b;
+      }
+      if(Keyboard.KEY_R){
+          resetPlayer();
       }
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
@@ -133,6 +138,8 @@ public class World implements DisplayWorld{
         
         ArrayList<Integer> blocks = level.getBlocks();
         
+        playerStart = level.getPlayerStart();
+        
         player = new Player(level.getPlayerStart(), this);
         add(player);
         end = new End(level.getLevelGoal(),this);
@@ -186,7 +193,11 @@ public class World implements DisplayWorld{
             }
         }
     }
-
+    private void resetPlayer(){
+        player.x = playerStart.x;
+        player.y = playerStart.y;
+        player.reset();
+    }
     @Override
     public void saveLevel(File file) {
         throw new UnsupportedOperationException("Not supported yet.");
