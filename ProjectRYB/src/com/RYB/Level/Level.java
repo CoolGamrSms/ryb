@@ -35,10 +35,8 @@ public class Level {
      */
     private void loadLevel(int curLevel){
         
-        if(curLevel == 0){
-            //TODO: Set up main menu if on level 0
-        }
-        else{
+     
+       
             URL path = Level.class.getResource(new String("../Assets/Levels/level" + Integer.toString(curLevel) + ".txt"));
             System.out.println(curLevel);
             try {
@@ -117,7 +115,7 @@ public class Level {
             } catch (IOException ex) {
                 Logger.getLogger(Sprite.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-        }
+        
     }
     
     public ArrayList<Integer> getBlocks() {

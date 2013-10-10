@@ -25,10 +25,10 @@ import java.util.ArrayList;
  */
 public class World implements DisplayWorld{
     Color bgColor = Color.white;
-    Sprite bgImage = new Sprite("../Assets/SkyBackground.jpg");
+    Sprite bgImage = new Sprite("../Assets/Start.jpg");
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
-    public int curLevel = 1;
+    public int curLevel = 0;
     public int maxLevel = 1;
     
     private Player player;
@@ -79,6 +79,11 @@ public class World implements DisplayWorld{
     }
     public void nextLevel(){
         reset();
+        
+        if (curLevel==0)
+        {
+            bgImage = new Sprite("../Assets/SkyBackground.jpg");
+        }
         curLevel++;
         if(curLevel>maxLevel)
         {
