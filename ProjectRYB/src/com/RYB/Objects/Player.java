@@ -61,8 +61,7 @@ public class Player extends Dynamic{
                jumping = true;
                velocity.y = JUMP.y;
        }
-       if (Keyboard.enter && world.curLevel == 0)
-           world.nextLevel();
+      
     }
     
 }

@@ -70,7 +70,9 @@ public class World implements DisplayWorld{
       }
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
-        }        
+        }     
+      if (Keyboard.enter && curLevel == 0)
+           nextLevel();      
     }
    
     public Player getPlayer()
