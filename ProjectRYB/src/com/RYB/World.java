@@ -95,7 +95,8 @@ public class World implements DisplayWorld{
          bgImage.draw(g);
          
          for(int i = 0; i < entities.size(); i++){
-             entities.get(i).render(g);
+             if (entities.get(i) != null)
+                entities.get(i).render(g);
          }
     }
     public ArrayList getEntities() {

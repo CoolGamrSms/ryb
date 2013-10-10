@@ -1,6 +1,8 @@
 package com.RYB.Level;
 
+import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Entity;
+import com.RYB.Objects.Player;
 import com.RYB.Utils.Vector2f;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,8 +20,12 @@ import java.util.logging.Logger;
  */
 public class LevelBuilder {
     private int tileLength;
-    private Entity[][] grid;
     private int rows, columns;
+    
+    private Entity[][] grid;
+    private Player player;
+    private End end;
+    
     
     public LevelBuilder(int rows, int columns, int tileLength){
         this.tileLength = tileLength;
@@ -46,7 +52,22 @@ public class LevelBuilder {
     public int getGridHeight(){
         return getRows() * getTileLength();
     }
+    public Entity[][] getEntities(){
+        return grid;
+    }
     
+    public void addPlayer(int row, int col, Player p){
+        if (player != null) return;
+        
+        player = p;
+        addEntity(row, col, p);
+    }
+    public void addEnd(int row, int col, End e){
+        if (end != null) return;
+        
+        end = e;
+        addEntity(row, col, e);
+    }
     public void addEntity(int row, int col, Entity e){
         grid[row][col] = e;
         
@@ -54,13 +75,18 @@ public class LevelBuilder {
         e.x = position.x;
         e.y = position.y;
     }
+    
     public void removeEntity(int row, int col){
+        if (grid[row][col] instanceof Player){
+            player = null;
+        }
+        else if(grid[row][col] instanceof End){
+            end = null;
+        }
+        
         grid[row][col] = null;
     }
-    public Entity[][] getEntities(){
-        return grid;
-    }
-    
+       
     public Vector2f getCellVector(int xPressed, int yPressed){
         return new Vector2f( (int) ((xPressed) / tileLength), (int) ((yPressed) / tileLength) );
     }
@@ -94,7 +120,8 @@ public class LevelBuilder {
                 for (int r = 0; r < getRows(); r++){
                     String aRow = "";
                     for (int c = 0; c < getColumns(); c++){
-                        if (grid[r][c] == null){
+                        //Not empty and not a player or end
+                        if (grid[r][c] == null && !(grid[r][c] instanceof Player || grid[r][c] instanceof End)){
                             aRow += "0,";
                         }
                         else{
@@ -109,16 +136,29 @@ public class LevelBuilder {
                 commands.set(commands.size() - 1, lastCommand.substring(0, lastCommand.length() - 1));  //Trims last comma
             commands.add("");
             
+            
+            //Player
             commands.add("[Object Layer 1]");
             commands.add("# playerStart");
             commands.add("type=int");
-            commands.add("location=2,3.96875,0,0");
+            if (player == null){
+                commands.add("location=2,3.96875,0,0");
+            }
+            else{
+                commands.add("location=" + player.x + "," + player.y + "0,0");
+            }
             commands.add("");
             
+            //Level Goal
             commands.add("[Object Layer 1]");
             commands.add("# levelGoal");
             commands.add("type=int");
-            commands.add("location=14.7812,9.71875,0,0");
+            if (end == null){
+                commands.add("location=14.7812,9.71875,0,0");
+            }
+            else{
+                commands.add("location=" + end.x + "," + end.y + "0,0");
+            }            
             
             //Writing
             for (String command: commands){

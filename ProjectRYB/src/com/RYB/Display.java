@@ -142,6 +142,7 @@ public class Display extends Canvas implements Runnable{
                //Save...
                 //It will be hard to figure out how to save levels and play without rebuilding the entire project...
                 //world.saveLevel(null);
+                
             }
             
         });
@@ -164,7 +165,7 @@ public class Display extends Canvas implements Runnable{
             
         });
         
-         levelGoal.addActionListener(new ActionListener(){
+        levelGoal.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
