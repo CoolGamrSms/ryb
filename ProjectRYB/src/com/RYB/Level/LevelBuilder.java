@@ -69,11 +69,12 @@ public class LevelBuilder {
         addEntity(row, col, e);
     }
     public void addEntity(int row, int col, Entity e){
-        grid[row][col] = e;
-        
+
         Vector2f position = getPositionVector(row, col);
         e.x = position.x;
         e.y = position.y;
+        
+        grid[row][col] = e;
     }
     
     public void removeEntity(int row, int col){

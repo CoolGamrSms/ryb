@@ -30,20 +30,20 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 1;
+    public int maxLevel = 2;
     
     private Player player;
     private Vector2f playerStart;
     private End end;
     
-    private boolean r=true,y=true,b=true; //Global RYB values
+    private boolean r=true,y=true,b=true, colorChanged = false;; //Global RYB values
     private boolean jPress,kPress,lPress = false;
     
     public World(){
         loadLevel(curLevel);
     }
     public void update(){
-              if(!Keyboard.KEY_J)
+      if(!Keyboard.KEY_J)
       { 
           jPress=true;
       }
@@ -51,6 +51,7 @@ public class World implements DisplayWorld{
       {
           jPress=false;
           r=!r;
+          colorChanged = true;
       }
        if(!Keyboard.KEY_K)
       {
@@ -60,6 +61,7 @@ public class World implements DisplayWorld{
       {
            kPress=false;
            y=!y;
+           colorChanged = true;
       }
         if(!Keyboard.KEY_L)
       {
@@ -69,6 +71,7 @@ public class World implements DisplayWorld{
       {
            lPress=false;
            b=!b;
+           colorChanged = true;
       }
       if(Keyboard.KEY_R){
           resetPlayer();
@@ -77,7 +80,12 @@ public class World implements DisplayWorld{
             entities.get(i).update();
         }     
       if (Keyboard.enter && curLevel == 0)
-           nextLevel();      
+           nextLevel(); 
+      
+      if(colorChanged)
+          updateBlockColors();
+      
+      colorChanged = false;
     }
    
     public Player getPlayer()
@@ -201,6 +209,15 @@ public class World implements DisplayWorld{
     @Override
     public void saveLevel(File file) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void updateBlockColors(){
+        //Updates the block colors only when a button is pressed
+        for(int i = 0; i < entities.size(); i++){
+            if(entities.get(i) instanceof ColorBlock){
+                ((ColorBlock)entities.get(i)).updateColor();
+            }
+        }
     }
         
 }

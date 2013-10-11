@@ -31,9 +31,11 @@ public class LevelWorld implements DisplayWorld{
     public LevelWorld(Display parent){
         parent.addMouseListener(new MouseListener(){
             public void mouseClicked(MouseEvent e) {
-                LevelWorld.this.mousePressed(e.getX(), e.getY());
+               // LevelWorld.this.mousePressed(e.getX(), e.getY());
             }
-            public void mousePressed(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {
+                    LevelWorld.this.mousePressed(e.getX(), e.getY());
+            }
             public void mouseReleased(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
@@ -59,6 +61,10 @@ public class LevelWorld implements DisplayWorld{
          for (int r = 0; r < builder.getRows(); r++){
              for (int c = 0; c < builder.getColumns(); c++){
                  if (grid[r][c] != null){
+                     if(grid[r][c] instanceof Player)
+                     {
+                         System.out.println(grid[r][c].y);
+                     }
                      grid[r][c].render(g);
                  }
              }
@@ -99,7 +105,8 @@ public class LevelWorld implements DisplayWorld{
                     builder.addEntity( (int) (posClicked.x), (int) (posClicked.y), new ColorBlock(blockSize, blockSize, true, false, false, tempWorld));                     
                 }
                 else if (toolBar.getEntityToolSelected().equals("Player")){
-                    builder.addPlayer( (int) (posClicked.x), (int) (posClicked.y), new Player( (int) (posClicked.x), (int) (posClicked.y), tempWorld));                       
+                    System.out.println(posClicked.x * blockSize);
+                    builder.addPlayer( (int) (posClicked.x), (int) (posClicked.y), new Player( (int) (posClicked.x * blockSize), (int) (posClicked.y * blockSize), tempWorld));                       
                 }
                 else if (toolBar.getEntityToolSelected().equals("End")){
                     builder.addEnd( (int) (posClicked.x), (int) (posClicked.y), new End(blockSize, blockSize, tempWorld));                       

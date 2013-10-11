@@ -20,7 +20,7 @@ public class ColorBlock extends GreyBlock{
     private boolean n_up=false, n_down=false, n_left=false, n_right=false; //Neighbor variables
     private Color orange = new Color(255,164,0);
     private Color purple = new Color(255,0,200);
-    private Color white = new Color(255,255,255,0);
+    private Color white = new Color(255,255,255,100);
     private boolean[] ryb = new boolean[3];
     protected World world;
     
@@ -111,8 +111,7 @@ public class ColorBlock extends GreyBlock{
     }
     @Override
     public void update(){
-      psolid = solid;
-      updateColor();    
+      psolid = solid;  
     }
     
 }
