@@ -6,19 +6,16 @@ import com.RYB.World;
 import java.util.ArrayList;
 
 public abstract class Dynamic extends Entity {
-    public static final Vector2f GRAVITY  = new Vector2f(0, 0.014f),
+    public static final Vector2f GRAVITY  = new Vector2f(0, 0.013f),
                                  FRICTION = new Vector2f(0.06f, 0),
-                                 MOVEMENT = new Vector2f(0.12f,0),
+                                 MOVEMENT = new Vector2f(1.0f,0),
                                  JUMP     = new Vector2f(0,-2f);
     
     protected Vector2f velocity, acceleration;
     protected float prevx, prevy;
-    protected int w,h;
     protected World world;
     public Dynamic(float x, float y, int width, int height, World world){
         super(x, y, width, height);
-        w = width;
-        h = height;
         this.world = world;
         velocity = new Vector2f(0f,0f);
         acceleration = new Vector2f(0f,0f);
@@ -40,7 +37,6 @@ public abstract class Dynamic extends Entity {
         
         prevx = x; //Store previous x and y coordinates
         prevy = y;
-        
         
         //Update y coordinate and check vertical collisions
         y += velocity.y;

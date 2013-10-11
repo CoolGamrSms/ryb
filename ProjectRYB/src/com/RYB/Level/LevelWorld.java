@@ -102,7 +102,7 @@ public class LevelWorld implements DisplayWorld{
                     builder.addPlayer( (int) (posClicked.x), (int) (posClicked.y), new Player( (int) (posClicked.x), (int) (posClicked.y), tempWorld));                       
                 }
                 else if (toolBar.getEntityToolSelected().equals("End")){
-                    builder.addEnd( (int) (posClicked.x), (int) (posClicked.y), new End(blockSize, blockSize, tempWorld));                       
+                    builder.addEnd( (int) (posClicked.x), (int) (posClicked.y), new End((int) (posClicked.x), (int) (posClicked.y), tempWorld));                       
                 }
 
             }      

@@ -204,12 +204,12 @@ public class Display extends Canvas implements Runnable{
 		
 	while(running){
             long curTime = System.nanoTime();
-            delta+= (curTime - lastTime) / ns;
+            delta+= (curTime - lastTime) / ns;            
             lastTime = curTime;
 			
             if(delta >= 1){
 		update();
-		delta--;
+		delta=0;
             }
             render();
             frames++;
@@ -217,7 +217,7 @@ public class Display extends Canvas implements Runnable{
             while(System.currentTimeMillis() - lastTimer > 1000){
 		lastTimer+=1000;
 		fps = frames;
-		System.out.println(fps);
+		//System.out.println(fps);
 		frames = 0;
             }
         }
