@@ -19,16 +19,21 @@ import javax.imageio.ImageIO;
  */
 public class Sprite {
     private BufferedImage bi;
-    public int x = 0, y = 0;
+    public int x, y;
     
     public Sprite(String path){
+        this(path, 0, 0);
+    }
+    public Sprite(String path, int x, int y){
         try {       
             loadImage(path);
         } catch (IOException ex) {
             Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        this.x = x;
+        this.y = y;
     }
-    
     /*
      * Loads image into buffered image object
      */

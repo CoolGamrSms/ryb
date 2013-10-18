@@ -7,6 +7,7 @@ import com.RYB.Objects.Entity;
 import com.RYB.Utils.Vector2f;
 import com.RYB.DisplayWorld;
 import com.RYB.Objects.Blocks.End;
+import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -30,13 +31,23 @@ public class LevelWorld implements DisplayWorld{
     
     public LevelWorld(Display parent){
         parent.addMouseListener(new MouseListener(){
-            public void mouseClicked(MouseEvent e) {
-               // LevelWorld.this.mousePressed(e.getX(), e.getY());
+            private int clickX, clickY;
+            
+            public void mouseClicked(MouseEvent e) {                
             }
             public void mousePressed(MouseEvent e) {
-                    LevelWorld.this.mousePressed(e.getX(), e.getY());
+                clickX = e.getX();
+                clickY = e.getY();
+                LevelWorld.this.mousePressed(clickX, clickY);
             }
-            public void mouseReleased(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {
+                //Check that this is not just a mouse press release instead of a drag
+                if (clickX == e.getX() && clickY == e.getY()){ return; }
+                
+                LevelWorld.this.mouseReleased(clickX, e.getX(), clickY, e.getY());
+                clickX = -1;
+                clickY = -1;
+            }
             public void mouseEntered(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
         });
@@ -61,10 +72,6 @@ public class LevelWorld implements DisplayWorld{
          for (int r = 0; r < builder.getRows(); r++){
              for (int c = 0; c < builder.getColumns(); c++){
                  if (grid[r][c] != null){
-                     if(grid[r][c] instanceof Player)
-                     {
-                         System.out.println(grid[r][c].y);
-                     }
                      grid[r][c].render(g);
                  }
              }
@@ -98,21 +105,78 @@ public class LevelWorld implements DisplayWorld{
     }
 
     private void mousePressed(int mouseX, int mouseY){
-            Vector2f posClicked = builder.getCellVector(mouseX, mouseY);
+            Vector2f cellClicked = builder.getCellVector(mouseX, mouseY);
             
-            if (posClicked.x < builder.getRows() && posClicked.y < builder.getColumns()){
+            if (cellClicked.x < builder.getRows() && cellClicked.y < builder.getColumns()){
                 if (toolBar.getEntityToolSelected().equals("Block")){
-                    builder.addEntity( (int) (posClicked.x), (int) (posClicked.y), new ColorBlock(blockSize, blockSize, true, false, false, tempWorld));                     
+                    boolean r = false, b = false, y = false, gray = false;
+                    
+                    switch (toolBar.getBlockColorSelected()){
+                        case "Gray":
+                            gray = true;
+                            break;
+                        case "Red":
+                            r = true;
+                            break;
+                        case "Blue":
+                            b = true;
+                            break;
+                        case "Yellow":
+                            y = true;
+                            break;
+                        case "Orange":
+                            r = true; y = true;
+                            break;
+                        case "Green":
+                            b = true; y = true;
+                            break;
+                        case "Purple":
+                            r = true; b = true;
+                            break;
+                        case "Black":
+                            r = true; b = true; y = true;
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    if (gray){
+                        builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new GreyBlock(blockSize, blockSize));
+                    }
+                    else {
+                        builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(blockSize, blockSize, r, y, b, tempWorld));                     
+                    }
                 }
                 else if (toolBar.getEntityToolSelected().equals("Player")){
-                    System.out.println(posClicked.x * blockSize);
-                    builder.addPlayer( (int) (posClicked.x), (int) (posClicked.y), new Player( (int) (posClicked.x * blockSize), (int) (posClicked.y * blockSize), tempWorld));                       
+                    System.out.println(cellClicked.x * blockSize);
+                    builder.addPlayer( (int) (cellClicked.x), (int) (cellClicked.y), new Player( (int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));                       
                 }
                 else if (toolBar.getEntityToolSelected().equals("End")){
-                    builder.addEnd( (int) (posClicked.x), (int) (posClicked.y), new End((int) (posClicked.x), (int) (posClicked.y), tempWorld));                       
+                    builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));                       
                 }
 
             }      
             
+    }
+    private void mouseReleased(int clickX, int releaseX, int clickY, int releaseY){
+        //Exits if not block drags
+        if (toolBar.getEntityToolSelected().equals("Player") || toolBar.getEntityToolSelected().equals("End")){
+            return;
+        }
+ 
+        
+        Vector2f cellClicked = builder.getCellVector(clickX, clickY);
+        Vector2f cellReleased = builder.getCellVector(releaseX, releaseY);
+        
+        float xD = Math.signum(cellReleased.x - cellClicked.x);
+        float yD = Math.signum(cellReleased.y - cellClicked.y);
+        
+        if (xD == 0){ xD = 1; }
+        if (yD == 0){ yD = 1; }
+        for (float xCol = cellClicked.x; (xD == 1.0f && xCol <= cellReleased.x) || (xD == -1.0f && xCol >= cellReleased.x); xCol += xD){
+            for (float yRow = cellClicked.y; (yD == 1.0f &&  yRow <= cellReleased.y) || (yD == -1.0f && yRow >= cellReleased.y); yRow += yD){
+                mousePressed((int) xCol * blockSize, (int) yRow * blockSize);                
+            }
+        }
     }
 }

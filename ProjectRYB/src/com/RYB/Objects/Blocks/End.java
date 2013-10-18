@@ -33,7 +33,7 @@ public class End extends Entity {
     
     
       private void loadEnd(){
-        sprite = new Sprite("../Assets/end.png");   
+        sprite = new Sprite("../Assets/end.png", (int) x, (int) y);   
     }
       
       public void update()

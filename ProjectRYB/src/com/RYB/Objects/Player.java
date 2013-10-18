@@ -30,7 +30,7 @@ public class Player extends Dynamic{
     }
     
     private void loadPlayer(){
-        sprite = new Sprite("../Assets/player.png");   
+        sprite = new Sprite("../Assets/player.png", (int) x , (int) y);   
     }
     
     @Override

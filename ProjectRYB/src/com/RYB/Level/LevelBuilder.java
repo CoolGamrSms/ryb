@@ -23,8 +23,8 @@ public class LevelBuilder {
     private int rows, columns;
     
     private Entity[][] grid;
-    private Player player;
-    private End end;
+    private Player player;      private int playerRow = -1, playerCol = -1;
+    private End end;            private int endRow = -1,    endCol = -1;
     
     
     public LevelBuilder(int rows, int columns, int tileLength){
@@ -57,19 +57,31 @@ public class LevelBuilder {
     }
     
     public void addPlayer(int row, int col, Player p){
-        if (player != null) return;
+        //Removes old
+        if (player != null){
+            removeEntity(playerRow, playerCol);
+        }
         
         player = p;
+        playerRow = row;
+        playerCol = col;
         addEntity(row, col, p);
     }
     public void addEnd(int row, int col, End e){
-        if (end != null) return;
+        //Removes old
+        if (end != null){
+            removeEntity(endRow, endCol);
+        }
         
+        //Adds new
         end = e;
+        endRow = row;
+        endCol = col;
         addEntity(row, col, e);
     }
     public void addEntity(int row, int col, Entity e){
-
+        removeEntity(row, col);
+        
         Vector2f position = getPositionVector(row, col);
         e.x = position.x;
         e.y = position.y;
@@ -78,11 +90,18 @@ public class LevelBuilder {
     }
     
     public void removeEntity(int row, int col){
+        //Bounds check
+        if (row >= rows || col >= columns){    return; }
+        
         if (grid[row][col] instanceof Player){
             player = null;
+            playerRow = -1;
+            playerCol = -1;
         }
         else if(grid[row][col] instanceof End){
             end = null;
+            endRow = -1;
+            endCol = -1;
         }
         
         grid[row][col] = null;
