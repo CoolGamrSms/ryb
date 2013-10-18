@@ -211,6 +211,7 @@ public class Display extends Canvas implements Runnable{
 		update();
 		delta=0;
             }
+            
             render();
             frames++;
 			
