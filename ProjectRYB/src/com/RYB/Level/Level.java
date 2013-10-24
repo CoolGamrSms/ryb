@@ -23,6 +23,7 @@ public class Level {
     private  ArrayList<Integer> blocks = new ArrayList<Integer>();
     private int gridWidth, gridHeight, tileWidth;
     private Vector2f playerStart, levelGoal;
+    private double[] scoreGoal = new double[3];
         
     public Level(int curLevel){
         playerStart = new Vector2f(0,0);
@@ -105,6 +106,20 @@ public class Level {
                         levelGoal.y = (float)(Double.parseDouble(k) * tileWidth + tileWidth);
                     }
                     
+                    if(curLine.contains("# scoreGoal")){
+                        in.readLine(); // type
+                        curLine = in.readLine();
+                        curLine = curLine.substring(9);
+                        Scanner s = new Scanner(curLine);
+                        s.useDelimiter(",");
+                        String k = s.next();
+                        scoreGoal[0] = Double.parseDouble(k);
+                        k = s.next();
+                        scoreGoal[1] = Double.parseDouble(k);
+                        k = s.next();
+                        scoreGoal[2] = Double.parseDouble(k);
+                    }
+                    
                 }
                 
                 
@@ -116,6 +131,12 @@ public class Level {
                 Logger.getLogger(Sprite.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         
+    }
+    
+    public double[] getGoal()
+    {
+        
+        return scoreGoal;
     }
     
     public ArrayList<Integer> getBlocks() {

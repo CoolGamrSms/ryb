@@ -30,7 +30,10 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 3;
+    public int maxLevel = 2;
+    
+    public int score = 0;
+    public double[] scoreGoal= new double[3];
     
     private Player player;
     private Vector2f playerStart;
@@ -52,6 +55,7 @@ public class World implements DisplayWorld{
           jPress=false;
           r=!r;
           colorChanged = true;
+          score++;
       }
        if(!Keyboard.KEY_K)
       {
@@ -62,6 +66,7 @@ public class World implements DisplayWorld{
            kPress=false;
            y=!y;
            colorChanged = true;
+           score++;
       }
         if(!Keyboard.KEY_L)
       {
@@ -72,6 +77,7 @@ public class World implements DisplayWorld{
            lPress=false;
            b=!b;
            colorChanged = true;
+           score++;
       }
       if(Keyboard.KEY_R){
           resetPlayer();
@@ -99,11 +105,25 @@ public class World implements DisplayWorld{
         {
             bgImage = new Sprite("../Assets/SkyBackground.jpg");
         }
+        else
+        {
+            System.out.println("You switched "+ score +" times.");
+            if(score <= scoreGoal[0])
+                System.out.println("You got Gold!");
+            else if(score <= scoreGoal[1])
+                System.out.println("You got Silver!");
+            else if(score <= scoreGoal[2])
+                System.out.println("You got Bronze!");
+            else
+                System.out.println("Try again!");
+            score = 0;
+        }
         curLevel++;
         if(curLevel>maxLevel)
         {
             curLevel = maxLevel;
         }
+        
         loadLevel(curLevel);
     }
     
@@ -200,11 +220,15 @@ public class World implements DisplayWorld{
                 s.findNeighbors();
             }
         }
+        scoreGoal = level.getGoal();
     }
     private void resetPlayer(){
         player.x = playerStart.x;
         player.y = playerStart.y;
         player.reset();
+        r=true;
+        y=true;
+        b=true;
     }
     @Override
     public void saveLevel(File file) {
