@@ -192,7 +192,6 @@ public class LevelToolBar {
         }
     }
     
-    
     public String getEntityToolSelected(){
         if (!player.isEnabled()){
             return ENTITY_PLAYER;
@@ -212,7 +211,7 @@ public class LevelToolBar {
             return "Gray";
         }
         else if (isDim(red) && isDim(yellow) && isDim(blue)){
-            return "Block";
+            return "Black";
         }
         else if (isDim(red) && isDim(yellow)){
             return "Orange";

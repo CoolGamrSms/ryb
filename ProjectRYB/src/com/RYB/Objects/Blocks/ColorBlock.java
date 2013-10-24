@@ -114,4 +114,30 @@ public class ColorBlock extends GreyBlock{
       psolid = solid;  
     }
     
+    public int getColor(){
+        if (rt && yt && bt){
+            return 8;
+        }
+        else if (rt && yt){
+            return 5;
+        }
+        else if (rt && bt){
+            return 6;
+        }
+        else if (yt && bt){
+            return 7;
+        }
+        else if (rt){
+            return 2;
+        }
+        else if (yt){
+            return 3;
+        }
+        else if (bt){
+            return 4;
+        }
+        else{
+            return 9;
+        }
+    }
 }

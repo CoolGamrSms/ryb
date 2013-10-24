@@ -8,6 +8,7 @@ package com.RYB;
 import com.RYB.Level.LevelBuilder;
 import com.RYB.Level.LevelWorld;
 import com.RYB.Utils.Console;
+import com.RYB.Utils.IOUtils;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Mouse;
 import java.awt.Canvas;
@@ -16,10 +17,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -139,10 +139,10 @@ public class Display extends Canvas implements Runnable{
         save.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-               //Save...
-                //It will be hard to figure out how to save levels and play without rebuilding the entire project...
-                //world.saveLevel(null);
-                
+                File f = IOUtils.browseToSaveMap();
+                if (f != null){
+                    world.saveLevel(f);
+                }
             }
             
         });

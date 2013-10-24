@@ -30,7 +30,7 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 2;
+    public int maxLevel = 3;
     
     private Player player;
     private Vector2f playerStart;

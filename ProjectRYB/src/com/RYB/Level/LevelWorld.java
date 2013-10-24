@@ -11,9 +11,14 @@ import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Objects.Player;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -28,7 +33,6 @@ public class LevelWorld implements DisplayWorld{
     
     private static final int blockSize = 32;    //based from current value in GreyBlock.java
     
-    
     public LevelWorld(Display parent){
         parent.addMouseListener(new MouseListener(){
             private int clickX, clickY;
@@ -36,11 +40,20 @@ public class LevelWorld implements DisplayWorld{
             public void mouseClicked(MouseEvent e) {                
             }
             public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)){
+                    deletePressed(e.getX(), e.getY());
+                    return;
+                }
+                
                 clickX = e.getX();
                 clickY = e.getY();
                 LevelWorld.this.mousePressed(clickX, clickY);
             }
             public void mouseReleased(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)){
+                    return;
+                }                
+                
                 //Check that this is not just a mouse press release instead of a drag
                 if (clickX == e.getX() && clickY == e.getY()){ return; }
                 
@@ -50,6 +63,24 @@ public class LevelWorld implements DisplayWorld{
             }
             public void mouseEntered(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
+        });
+        parent.addKeyListener(new KeyListener(){
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE){
+                    deletePressed(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE){
+                    deletePressed(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+                }                
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+            
         });
         tempWorld = new World();
         toolBar = new LevelToolBar();
@@ -104,59 +135,67 @@ public class LevelWorld implements DisplayWorld{
         builder.output(file);
     }
 
+    private void deletePressed(int mouseX, int mouseY){
+        Vector2f cellClicked = builder.getCellVector(mouseX, mouseY);
+
+        if (cellClicked.x < builder.getRows() && cellClicked.y < builder.getColumns() && cellClicked.x >= 0 && cellClicked.y >= 0){
+            builder.removeEntity((int) (cellClicked.x), (int) (cellClicked.y));
+        }
+        
+        //tempWorld.update();
+    }
     private void mousePressed(int mouseX, int mouseY){
             Vector2f cellClicked = builder.getCellVector(mouseX, mouseY);
             
-            if (cellClicked.x < builder.getRows() && cellClicked.y < builder.getColumns()){
-                if (toolBar.getEntityToolSelected().equals("Block")){
-                    boolean r = false, b = false, y = false, gray = false;
-                    
-                    switch (toolBar.getBlockColorSelected()){
-                        case "Gray":
-                            gray = true;
-                            break;
-                        case "Red":
-                            r = true;
-                            break;
-                        case "Blue":
-                            b = true;
-                            break;
-                        case "Yellow":
-                            y = true;
-                            break;
-                        case "Orange":
-                            r = true; y = true;
-                            break;
-                        case "Green":
-                            b = true; y = true;
-                            break;
-                        case "Purple":
-                            r = true; b = true;
-                            break;
-                        case "Black":
-                            r = true; b = true; y = true;
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    if (gray){
-                        builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new GreyBlock(blockSize, blockSize));
-                    }
-                    else {
-                        builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(blockSize, blockSize, r, y, b, tempWorld));                     
-                    }
+            if (cellClicked.x < builder.getRows() && cellClicked.y < builder.getColumns() && cellClicked.x >= 0 && cellClicked.y >= 0){
+                if (toolBar.getEntityToolSelected().equals("Block")) {
+                        boolean r = false, b = false, y = false, gray = false;
+                        
+                        switch (toolBar.getBlockColorSelected()){
+                            case "Gray":
+                                gray = true;
+                                break;
+                            case "Red":
+                                r = true;
+                                break;
+                            case "Blue":
+                                b = true;
+                                break;
+                            case "Yellow":
+                                y = true;
+                                break;
+                            case "Orange":
+                                r = true; y = true;
+                                break;
+                            case "Green":
+                                b = true; y = true;
+                                break;
+                            case "Purple":
+                                r = true; b = true;
+                                break;
+                            case "Black":
+                                r = true; b = true; y = true;
+                                break;
+                            default:
+                                //White
+                                break;
+                        }
+                        
+                        if (gray){
+                            builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new GreyBlock(blockSize, blockSize));
+                        }
+                        else {
+                            builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(blockSize, blockSize, r, y, b, tempWorld));                     
+                        }
                 }
-                else if (toolBar.getEntityToolSelected().equals("Player")){
-                    System.out.println(cellClicked.x * blockSize);
-                    builder.addPlayer( (int) (cellClicked.x), (int) (cellClicked.y), new Player( (int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));                       
+                else if (toolBar.getEntityToolSelected().equals("Player")){ 
+                        System.out.println(cellClicked.x * blockSize);
+                        builder.addPlayer( (int) (cellClicked.x), (int) (cellClicked.y), new Player( (int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));
                 }
                 else if (toolBar.getEntityToolSelected().equals("End")){
-                    builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));                       
+                        builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld)); 
                 }
-
-            }      
-            
+        } 
     }
     private void mouseReleased(int clickX, int releaseX, int clickY, int releaseY){
         //Exits if not block drags
@@ -167,7 +206,7 @@ public class LevelWorld implements DisplayWorld{
         
         Vector2f cellClicked = builder.getCellVector(clickX, clickY);
         Vector2f cellReleased = builder.getCellVector(releaseX, releaseY);
-        
+                
         float xD = Math.signum(cellReleased.x - cellClicked.x);
         float yD = Math.signum(cellReleased.y - cellClicked.y);
         
