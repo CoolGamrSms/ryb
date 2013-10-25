@@ -40,3 +40,8 @@ location=2,3.96875,0,0
 type=int
 location=22,7,0,0
 
+[Object Layer 1]
+# scoreGoal
+type=int
+location=0,3,6
+
