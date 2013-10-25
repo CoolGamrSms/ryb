@@ -23,7 +23,7 @@ public class Level {
     private  ArrayList<Integer> blocks = new ArrayList<Integer>();
     private int gridWidth, gridHeight, tileWidth;
     private Vector2f playerStart, levelGoal;
-    private double[] scoreGoal = new double[3];
+    private double[] scoreGoal = {5,10,15};
         
     public Level(int curLevel){
         playerStart = new Vector2f(0,0);
