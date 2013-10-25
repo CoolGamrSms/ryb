@@ -30,7 +30,7 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 3;
+    public int maxLevel = 4;
     
     public int score = 0;
     public double[] scoreGoal= new double[3];
