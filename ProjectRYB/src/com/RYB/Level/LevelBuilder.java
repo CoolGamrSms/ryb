@@ -84,6 +84,7 @@ public class LevelBuilder {
         Vector2f position = getPositionVector(row, col);
         e.x = position.x;
         e.y = position.y;
+        e.update();
         
         grid[row][col] = e;
     }
@@ -106,11 +107,17 @@ public class LevelBuilder {
         grid[row][col] = null;
     }
        
+    /**
+     * Gets the cell (row, col) based on the point location x, y.
+     * @param xPressed x pixel relative to LevelWorld
+     * @param yPressed y pixel relative to LevelWorld
+     * @return The cell vector (row, col)
+     */
     public Vector2f getCellVector(int xPressed, int yPressed){
-        return new Vector2f( (int) ((xPressed) / tileLength), (int) ((yPressed) / tileLength) );
+        return new Vector2f( (int) ((yPressed) / tileLength), (int) ((xPressed) / tileLength) );
     }
     public Vector2f getPositionVector(int r, int c){
-        return new Vector2f( r * tileLength + tileLength/2, c * tileLength + tileLength/2 );
+        return new Vector2f( c * tileLength + tileLength/2, r * tileLength + tileLength/2 );
     }
     
     public void output(File level){
@@ -166,7 +173,7 @@ public class LevelBuilder {
                 commands.add("location=2,3.96875,0,0");
             }
             else{
-                commands.add("location=" + player.x + "," + player.y + "0,0");
+                commands.add("location=" + playerCol + "," + playerRow + ",0,0");
             }
             commands.add("");
             
@@ -178,7 +185,7 @@ public class LevelBuilder {
                 commands.add("location=14.7812,9.71875,0,0");
             }
             else{
-                commands.add("location=" + end.x + "," + end.y + "0,0");
+                commands.add("location=" + endCol + "," + endRow + ",0,0");
             }            
             
             //Writing

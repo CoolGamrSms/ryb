@@ -40,25 +40,32 @@ public class LevelWorld implements DisplayWorld{
             public void mouseClicked(MouseEvent e) {                
             }
             public void mousePressed(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)){
-                    deletePressed(e.getX(), e.getY());
-                    return;
-                }
-                
                 clickX = e.getX();
                 clickY = e.getY();
-                LevelWorld.this.mousePressed(clickX, clickY);
+                
+                //Right Click
+                if (SwingUtilities.isRightMouseButton(e)){
+                    LevelWorld.this.deletePressed(e.getX(), e.getY());
+                }
+                //Left Click
+                else{
+                    LevelWorld.this.mousePressed(clickX, clickY);                    
+                }
             }
             public void mouseReleased(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)){
-                    return;
-                }                
-                
                 //Check that this is not just a mouse press release instead of a drag
                 if (clickX == e.getX() && clickY == e.getY()){ return; }
+                    
+                //Right Click
+                if (SwingUtilities.isRightMouseButton(e)){
+                    LevelWorld.this.deleteReleased(clickX, e.getX(), clickY, e.getY());
+                }    
+                //Left Click
+                else{
+                    LevelWorld.this.mouseReleased(clickX, e.getX(), clickY, e.getY());
+                }
                 
-                LevelWorld.this.mouseReleased(clickX, e.getX(), clickY, e.getY());
-                clickX = -1;
+                clickX = -1;                
                 clickY = -1;
             }
             public void mouseEntered(MouseEvent e) {}
@@ -126,6 +133,7 @@ public class LevelWorld implements DisplayWorld{
             }
         }
     }
+    
     @Override
     public void reset() {
     }
@@ -144,8 +152,33 @@ public class LevelWorld implements DisplayWorld{
         
         //tempWorld.update();
     }
+    private void deleteReleased(int clickX, int releaseX, int clickY, int releaseY){        
+        Vector2f cellClicked = builder.getCellVector(clickX, clickY);
+        Vector2f cellReleased = builder.getCellVector(releaseX, releaseY);
+                
+        float rowDifference = Math.signum(cellReleased.x - cellClicked.x);
+        float colDifference = Math.signum(cellReleased.y - cellClicked.y);
+        
+        //Ensures that both for loops go through at least once
+        if (rowDifference == 0){ rowDifference = 1; }
+        if (colDifference == 0){ colDifference = 1; }
+        
+
+        for (float xCol = cellClicked.x; (rowDifference == 1.0f && xCol <= cellReleased.x) || (rowDifference == -1.0f && xCol >= cellReleased.x); xCol += rowDifference){
+            for (float yRow = cellClicked.y; (colDifference == 1.0f &&  yRow <= cellReleased.y) || (colDifference == -1.0f && yRow >= cellReleased.y); yRow += colDifference){
+                deletePressed((int) yRow * blockSize, (int) xCol * blockSize);                
+            }
+        }
+    } 
+    
     private void mousePressed(int mouseX, int mouseY){
             Vector2f cellClicked = builder.getCellVector(mouseX, mouseY);
+            Vector2f entityCenter = builder.getPositionVector((int) cellClicked.x, (int) cellClicked.y);
+            
+            int row = (int) cellClicked.x;
+            int col = (int) cellClicked.y;
+            int xCenter = (int) entityCenter.x;
+            int yCenter = (int) entityCenter.y;
             
             if (cellClicked.x < builder.getRows() && cellClicked.y < builder.getColumns() && cellClicked.x >= 0 && cellClicked.y >= 0){
                 if (toolBar.getEntityToolSelected().equals("Block")) {
@@ -182,18 +215,17 @@ public class LevelWorld implements DisplayWorld{
                         }
                         
                         if (gray){
-                            builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new GreyBlock(blockSize, blockSize));
+                            builder.addEntity(row, col, new GreyBlock(blockSize, blockSize));
                         }
                         else {
-                            builder.addEntity( (int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(blockSize, blockSize, r, y, b, tempWorld));                     
+                            builder.addEntity(row, col, new ColorBlock(blockSize, blockSize, r, y, b, tempWorld));                     
                         }
                 }
                 else if (toolBar.getEntityToolSelected().equals("Player")){ 
-                        System.out.println(cellClicked.x * blockSize);
-                        builder.addPlayer( (int) (cellClicked.x), (int) (cellClicked.y), new Player( (int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld));
+                        builder.addPlayer( row, col, new Player( xCenter, yCenter , tempWorld));
                 }
                 else if (toolBar.getEntityToolSelected().equals("End")){
-                        builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.x * blockSize), (int) (cellClicked.y * blockSize), tempWorld)); 
+                        builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.y * blockSize), (int) (cellClicked.x * blockSize), tempWorld)); 
                 }
         } 
     }
@@ -207,14 +239,17 @@ public class LevelWorld implements DisplayWorld{
         Vector2f cellClicked = builder.getCellVector(clickX, clickY);
         Vector2f cellReleased = builder.getCellVector(releaseX, releaseY);
                 
-        float xD = Math.signum(cellReleased.x - cellClicked.x);
-        float yD = Math.signum(cellReleased.y - cellClicked.y);
+        float rowDifference = Math.signum(cellReleased.x - cellClicked.x);
+        float colDifference = Math.signum(cellReleased.y - cellClicked.y);
         
-        if (xD == 0){ xD = 1; }
-        if (yD == 0){ yD = 1; }
-        for (float xCol = cellClicked.x; (xD == 1.0f && xCol <= cellReleased.x) || (xD == -1.0f && xCol >= cellReleased.x); xCol += xD){
-            for (float yRow = cellClicked.y; (yD == 1.0f &&  yRow <= cellReleased.y) || (yD == -1.0f && yRow >= cellReleased.y); yRow += yD){
-                mousePressed((int) xCol * blockSize, (int) yRow * blockSize);                
+        //Ensures that both for loops go through at least once
+        if (rowDifference == 0){ rowDifference = 1; }
+        if (colDifference == 0){ colDifference = 1; }
+        
+
+        for (float xCol = cellClicked.x; (rowDifference == 1.0f && xCol <= cellReleased.x) || (rowDifference == -1.0f && xCol >= cellReleased.x); xCol += rowDifference){
+            for (float yRow = cellClicked.y; (colDifference == 1.0f &&  yRow <= cellReleased.y) || (colDifference == -1.0f && yRow >= cellReleased.y); yRow += colDifference){
+                mousePressed((int) yRow * blockSize, (int) xCol * blockSize);                
             }
         }
     }
