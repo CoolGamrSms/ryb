@@ -81,6 +81,7 @@ public class World implements DisplayWorld{
       }
       if(Keyboard.KEY_R){
           resetPlayer();
+        
       }
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
@@ -223,12 +224,15 @@ public class World implements DisplayWorld{
         scoreGoal = level.getGoal();
     }
     private void resetPlayer(){
+      
         player.x = playerStart.x;
         player.y = playerStart.y;
-        player.reset();
         r=true;
         y=true;
         b=true;
+        updateBlockColors();
+        player.reset();
+        
     }
     @Override
     public void saveLevel(File file) {
