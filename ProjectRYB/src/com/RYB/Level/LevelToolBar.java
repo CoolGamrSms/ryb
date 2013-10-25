@@ -170,6 +170,8 @@ public class LevelToolBar {
         if (!red.isEnabled() && !blue.isEnabled() && !yellow.isEnabled() && !gray.isEnabled()){
             gray.setEnabled(true);
         }
+        
+        toggleEntity("B");
     }    
     private void toggleEntity(String buttonPressed){
         player.setEnabled(true);
