@@ -43,5 +43,5 @@ location=23.625,5.15625,0,0
 [Object Layer 1]
 # scoreGoal
 type=int
-location=0,4,6
+location=2,4,6
 
