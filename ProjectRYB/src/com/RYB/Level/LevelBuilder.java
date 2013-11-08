@@ -130,8 +130,8 @@ public class LevelBuilder {
             
             //Formmating for saved file
             commands.add("[header]");
-            commands.add("width=" + rows);
-            commands.add("height=" + columns);
+            commands.add("width=" + columns);
+            commands.add("height=" + rows);
             commands.add("tilewidth=" + tileLength);
             commands.add("tileheight" + tileLength);
             commands.add("");
