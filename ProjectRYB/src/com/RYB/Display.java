@@ -204,16 +204,16 @@ public class Display extends Canvas implements Runnable{
 		
 	while(running){
             long curTime = System.nanoTime();
-            delta+= (curTime - lastTime) / ns;            
-            lastTime = curTime;
+            delta = (curTime - lastTime) / ns;            
+
 			
             if(delta >= 1){
+                lastTime = curTime;
 		update();
-		delta=0;
-            }
+                render();
+                frames++;
+            }         
             
-            render();
-            frames++;
 			
             while(System.currentTimeMillis() - lastTimer > 1000){
 		lastTimer+=1000;

@@ -55,7 +55,7 @@ public class ColorBlock extends GreyBlock{
             Entity e = (Entity) world.getEntities().get(i);
             if(e instanceof ColorBlock && e!=this) { //Loops through all ColorBlocks in the world
                 ColorBlock s = (ColorBlock)e;
-                if(s.compareColor(tcolor)) { //Check to see if they are the same color
+                if(s.compareColor(rt,yt,bt)) { //Check to see if they are the same color
                     if(s.y==y+height && s.x==x) n_down = true;
                     if(s.y==y-height && s.x==x) n_up = true;
                     if(s.x==x+width && s.y==y) n_right = true;
@@ -89,13 +89,15 @@ public class ColorBlock extends GreyBlock{
             solid = false;
         }
     }
-    public boolean compareColor(Color c) {
-        return (tcolor==c);
+    public boolean compareColor(boolean r, boolean y, boolean b) {
+        return (!(r^rt) && !(y^yt) && !(b^bt));
     }
     @Override
     public void render(Graphics g){
-        g.setColor(color);
-        g.fillRect((int)x-width/2,(int)y-height/2, width, height); 
+        if(color!=white) {
+            g.setColor(color);
+            g.fillRect((int)x-width/2,(int)y-height/2, width, height); 
+        }
         g.setColor(tcolor);
         //THICK LINES
         if(!n_up) g.fillRect((int)x-width/2, (int)y-height/2, width, 2);
@@ -103,7 +105,7 @@ public class ColorBlock extends GreyBlock{
         if(!n_left) g.fillRect((int)x-width/2, (int)y-height/2, 2, height);
         if(!n_right) g.fillRect((int)x+width/2-2, (int)y-height/2, 2, height);
         //THIN LINES
-       /* if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2-1, (int)y-height/2);
+        /*if(!n_up) g.drawLine((int)x-width/2, (int)y-height/2, (int)x+width/2-1, (int)y-height/2);
         if(!n_down) g.drawLine((int)x-width/2, (int)y+height/2-1, (int)x+width/2-1, (int)y+height/2-1);
         if(!n_left) g.drawLine((int)x-width/2, (int)y-height/2, (int)x-width/2, (int)y+height/2-1);
         if(!n_right) g.drawLine((int)x+width/2-1, (int)y-height/2, (int)x+width/2-1, (int)y+height/2-1);*/
