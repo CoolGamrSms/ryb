@@ -209,9 +209,10 @@ public class Display extends Canvas implements Runnable{
 			
             if(delta >= 1){
                 lastTime = curTime;
-		update();		
+		update();
+                frames++;
+                render();
             }
-            
 			
             while(System.currentTimeMillis() - lastTimer > 1000){
 		lastTimer+=1000;
