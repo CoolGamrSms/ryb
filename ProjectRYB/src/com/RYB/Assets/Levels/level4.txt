@@ -39,3 +39,8 @@ location=11,6,0,0
 # levelGoal
 type=int
 location=16,9,0,0
+
+[Object Layer 1]
+# scoreGoal
+type=int
+location=13,16,20

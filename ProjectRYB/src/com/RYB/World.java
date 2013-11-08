@@ -12,6 +12,7 @@ import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
+import com.RYB.Objects.MovingPlatform;
 import com.RYB.Objects.Player;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
@@ -81,6 +82,10 @@ public class World implements DisplayWorld{
       }
       if(Keyboard.KEY_R){
           resetPlayer();
+          r = true;
+          y = true;
+          b = true;
+          score = 0;
         
       }
         for(int i = 0; i < entities.size(); i++){
@@ -152,7 +157,7 @@ public class World implements DisplayWorld{
     public boolean getB() {
         return b;
     }
-    private void add(Entity e){
+    public void add(Entity e){
         entities.add(e);
     }
     
@@ -173,6 +178,9 @@ public class World implements DisplayWorld{
         add(player);
         end = new End(level.getLevelGoal(),this);
         add(end);
+        
+       /* boolean[] ryb = new boolean[]{true, false, true};
+        add(new MovingPlatform(200, 200, 400, 200, 2,ryb, this));*/
         
         for(int y = 0; y < level.getGridHeight(); y++){
             for(int x = 0; x < level.getGridWidth(); x++){
