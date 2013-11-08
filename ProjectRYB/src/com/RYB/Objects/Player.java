@@ -5,6 +5,7 @@
 package com.RYB.Objects;
 
 import com.RYB.Graphics.Sprite;
+import static com.RYB.Objects.Dynamic.GRAVITY;
 import static com.RYB.Objects.Dynamic.MOVEMENT;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
@@ -21,13 +22,13 @@ public class Player extends Dynamic{
     private boolean jumping = false;
     
     public Player(float x, float y, World world){
-        super(x,y,30,48,world);
-        loadPlayer();
+        this(new Vector2f(x, y), world);
     }
     
     public Player(Vector2f startPosition, World world){
         super(startPosition.x, startPosition.y, 30, 48, world);
         loadPlayer();
+        setAcceleration(GRAVITY);
     }
     
     private void loadPlayer(){
@@ -42,25 +43,45 @@ public class Player extends Dynamic{
 
     @Override
     public void handleKeyPress(){
-        //Key movements change velocity
+       //Right moves right
        if(Keyboard.right){
            velocity.x+=MOVEMENT.x;
        }
+       
+       //Left moves left
        if(Keyboard.left){
            velocity.x-=MOVEMENT.x;
-       }        
+       }     
+    }
+    
+    @Override
+    public void handleConstraints(){
+        //Must limit x movement while in air
+        if (!isOnGround()){
+            Vector2f tmpMax = new Vector2f(maxVelocity);
+            Vector2f tmpMin = new Vector2f(minVelocity);
+            
+            maxVelocity = new Vector2f(0.8f, tmpMax.y);
+            minVelocity = new Vector2f(-0.8f, tmpMin.y);
+
+            super.handleConstraints();
+
+            maxVelocity = tmpMax;
+            minVelocity = tmpMin;
+        }
+        //Normal limits on velocity
+        else{
+            super.handleConstraints();
+        }
     }
     
     @Override
     public void update() {
-        super.update(); //super.update allows us to do the same thing to all derived classes e.g. update graphics location or apply gravity to all
-                           //dynamic objects
-        
-        if(velocity.y==0 && prevy<y) jumping = false;
-       
-        
+       super.update();
 
-       
+       if(velocity.y==0 && prevy<y){
+           jumping = false;
+       }
        if((Keyboard.up || Keyboard.space) && !jumping && velocity.y==0){
                jumping = true;
                velocity.y = JUMP.y;

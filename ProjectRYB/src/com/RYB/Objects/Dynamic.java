@@ -15,7 +15,7 @@ public abstract class Dynamic extends Entity {
     protected Vector2f  velocity, acceleration;
     protected float     prevx, prevy;
     protected World     world;
-    
+    protected boolean   onGround;
 
     
     public Dynamic(float x, float y, int width, int height, World world){
@@ -23,7 +23,6 @@ public abstract class Dynamic extends Entity {
         this.world = world;
         velocity = new Vector2f(0f,0f);
         acceleration = new Vector2f(0f,0f);
-        setAcceleration(GRAVITY);
     }
     
     public Vector2f getVelocity(){
@@ -36,6 +35,9 @@ public abstract class Dynamic extends Entity {
         acceleration = a;
     }
     
+    public boolean isOnGround(){
+        return onGround;
+    }
 
     public void handleKeyPress(){
         //Override this to deal with dynamics that respond to a key press
@@ -59,22 +61,38 @@ public abstract class Dynamic extends Entity {
         prevx = x; //Store previous x and y coordinates
         prevy = y;
         
-        //Update y coordinate and check vertical collisions
         y += velocity.y;
+        handleYCollision();
+        
+        x += velocity.x;
+        handleXCollision();
+    }  
+    protected void handleYCollision(){
+        boolean bottomTouchesAnyBlock = false;
         for(int i = 0; i < world.getEntities().size(); i++){
             Entity e = (Entity) world.getEntities().get(i);
             if(e instanceof Static) { //Loops through all static entities in the world
                 Static s = (Static)e;
+                
                 if(this.isOverlap(s) && s.getSolid()) { //Check if the block is solid and overlapping
                     if(!s.wasSolid()) System.out.println("Crushed"); //We need to decide what to do when something gets crushed
+                    
                     y = this.overlapY(s); //Snap to edge of colliding block
                     prevy = y-velocity.y; //For player class to recognize jumping should be true
                     velocity.y = 0;
-                }
+                    
+                    if (this.isOverLapBelow(s)){
+                        bottomTouchesAnyBlock = true;
+                    }                    
+                } 
             }
         }
-        //Update x coordinate and check horizontal collisions
-        x += velocity.x;
+        
+
+        onGround = bottomTouchesAnyBlock;        
+    }
+    protected void handleXCollision(){
+
         for(int i = 0; i < world.getEntities().size(); i++){
             Entity e = (Entity) world.getEntities().get(i);
             if(e instanceof Static) { //Loop through all statics in the world
@@ -85,10 +103,8 @@ public abstract class Dynamic extends Entity {
                     velocity.x = 0;
                 }
             }
-        }
-        
-    }  
-    
+        }        
+    }
     
     @Override 
     public void update(){

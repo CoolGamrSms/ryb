@@ -9,6 +9,10 @@ public class Vector2f {
         this.x = x;
         this.y = y;
     }
+    public Vector2f(Vector2f tmp){
+        this.x = tmp.x;
+        this.y = tmp.y;
+    }
     
     public double getMagnitude(){
         return Math.sqrt(x*x + y*y);
