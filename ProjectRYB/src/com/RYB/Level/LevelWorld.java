@@ -92,7 +92,7 @@ public class LevelWorld implements DisplayWorld{
         tempWorld = new World();
         toolBar = new LevelToolBar();
         
-        builder = new LevelBuilder(parent.getSize().width / blockSize, parent.getSize().height / blockSize, blockSize);
+        builder = new LevelBuilder(parent.getSize().height / blockSize, parent.getSize().width / blockSize, blockSize);
     }
 
     @Override
