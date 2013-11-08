@@ -126,8 +126,8 @@ public class LevelWorld implements DisplayWorld{
         
         for (int r = 0; r < builder.getRows(); r++){
             for (int c = 0; c < builder.getColumns(); c++){
-                x = r*blockSize;
-                y = c*blockSize;
+                x = c*blockSize;
+                y = r*blockSize;
                 g.drawLine(x, y, x + blockSize, y);  
                 g.drawLine(x, y, x, y + blockSize);  
             }

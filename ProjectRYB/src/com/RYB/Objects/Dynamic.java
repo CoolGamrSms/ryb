@@ -1,9 +1,7 @@
 package com.RYB.Objects;
 
-import com.RYB.Display;
 import com.RYB.Utils.Vector2f;
 import com.RYB.World;
-import java.util.ArrayList;
 
 public abstract class Dynamic extends Entity {
     public static final Vector2f GRAVITY  = new Vector2f(0, 0.013f),
@@ -19,7 +17,7 @@ public abstract class Dynamic extends Entity {
         this.world = world;
         velocity = new Vector2f(0f,0f);
         acceleration = new Vector2f(0f,0f);
-        applyForce(GRAVITY,1);
+        setAcceleration(GRAVITY);
     }
     
     public Vector2f getVelocity(){
@@ -67,8 +65,9 @@ public abstract class Dynamic extends Entity {
         }
         
     }  
-    public void applyForce(Vector2f force, float multiplier){
-        acceleration = Vector2f.add(acceleration, Vector2f.multiply(force,multiplier));
+    
+    public final void setAcceleration(Vector2f a){
+        acceleration = a;
     }
     
     @Override 

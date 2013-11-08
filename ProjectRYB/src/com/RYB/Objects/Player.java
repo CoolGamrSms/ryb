@@ -20,12 +20,12 @@ public class Player extends Dynamic{
     private boolean jumping = false;
     
     public Player(float x, float y, World world){
-        super(x,y,32,48,world);
+        super(x,y,30,48,world);
         loadPlayer();
     }
     
     public Player(Vector2f startPosition, World world){
-        super(startPosition.x, startPosition.y, 32, 48, world);
+        super(startPosition.x, startPosition.y, 30, 48, world);
         loadPlayer();
     }
     
