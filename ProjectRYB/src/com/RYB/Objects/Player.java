@@ -5,6 +5,7 @@
 package com.RYB.Objects;
 
 import com.RYB.Graphics.Sprite;
+import static com.RYB.Objects.Dynamic.MOVEMENT;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
 import com.RYB.World;
@@ -40,6 +41,17 @@ public class Player extends Dynamic{
     }
 
     @Override
+    public void handleKeyPress(){
+        //Key movements change velocity
+       if(Keyboard.right){
+           velocity.x+=MOVEMENT.x;
+       }
+       if(Keyboard.left){
+           velocity.x-=MOVEMENT.x;
+       }        
+    }
+    
+    @Override
     public void update() {
         super.update(); //super.update allows us to do the same thing to all derived classes e.g. update graphics location or apply gravity to all
                            //dynamic objects
@@ -47,15 +59,7 @@ public class Player extends Dynamic{
         if(velocity.y==0 && prevy<y) jumping = false;
        
         
-        //Key movements change velocity
-       if(Keyboard.right){
-           velocity.x+=MOVEMENT.x;
-           velocity.x = Math.min(velocity.x,1.6f);
-       }
-       if(Keyboard.left){
-           velocity.x-=MOVEMENT.x;
-           velocity.x = Math.max(velocity.x,-1.6f);
-       }
+
        
        if((Keyboard.up || Keyboard.space) && !jumping && velocity.y==0){
                jumping = true;

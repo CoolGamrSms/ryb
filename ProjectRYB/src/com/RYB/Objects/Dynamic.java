@@ -9,9 +9,15 @@ public abstract class Dynamic extends Entity {
                                  MOVEMENT = new Vector2f(1.0f,0),
                                  JUMP     = new Vector2f(0,-2f);
     
-    protected Vector2f velocity, acceleration;
-    protected float prevx, prevy;
-    protected World world;
+    protected Vector2f  maxVelocity = new Vector2f(1.6f, 1.6f),
+                        minVelocity = new Vector2f(-1.6f, -1.6f);    
+    
+    protected Vector2f  velocity, acceleration;
+    protected float     prevx, prevy;
+    protected World     world;
+    
+
+    
     public Dynamic(float x, float y, int width, int height, World world){
         super(x, y, width, height);
         this.world = world;
@@ -26,12 +32,29 @@ public abstract class Dynamic extends Entity {
     public Vector2f getAcceleration(){
         return acceleration;
     }
+    public void setAcceleration(Vector2f a){
+        acceleration = a;
+    }
     
+
+    public void handleKeyPress(){
+        //Override this to deal with dynamics that respond to a key press
+    }  
+    public void handleConstraints(){
+        velocity.x = Math.min(velocity.x, maxVelocity.x);
+        velocity.y = Math.min(velocity.y, maxVelocity.y);
+        
+        velocity.x = Math.max(velocity.x, minVelocity.x);
+        velocity.y = Math.max(velocity.y, minVelocity.y);
+    }
     public void updateKinematics(){
         velocity.x = Math.signum(velocity.x)*(Math.abs(velocity.x)-FRICTION.x); //Apply friction
         if(Math.abs(velocity.x)*3<FRICTION.x) velocity.x = 0; //Round friction
         velocity.x += acceleration.x;
         velocity.y += acceleration.y;
+        
+        handleKeyPress();
+        handleConstraints();
         
         prevx = x; //Store previous x and y coordinates
         prevy = y;
@@ -66,9 +89,6 @@ public abstract class Dynamic extends Entity {
         
     }  
     
-    public final void setAcceleration(Vector2f a){
-        acceleration = a;
-    }
     
     @Override 
     public void update(){
