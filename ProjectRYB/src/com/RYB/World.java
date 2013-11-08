@@ -81,6 +81,10 @@ public class World implements DisplayWorld{
       }
       if(Keyboard.KEY_R){
           resetPlayer();
+          r = true;
+          y = true;
+          b = true;
+          score = 0;
         
       }
         for(int i = 0; i < entities.size(); i++){

@@ -101,9 +101,9 @@ public class Level {
                         Scanner s = new Scanner(curLine);
                         s.useDelimiter(",");
                         String k = s.next();
-                        levelGoal.x = (float)(Double.parseDouble(k) * tileWidth + tileWidth);
+                        levelGoal.x = (float)(Double.parseDouble(k) * tileWidth + tileWidth/2);
                         k = s.next();
-                        levelGoal.y = (float)(Double.parseDouble(k) * tileWidth + tileWidth);
+                        levelGoal.y = (float)(Double.parseDouble(k) * tileWidth + tileWidth/2);
                     }
                     
                     if(curLine.contains("# scoreGoal")){
