@@ -20,6 +20,7 @@ public class MovingPlatform extends Dynamic{
     private float x, y;
     private float startX, startY, endX, endY;
     private World world;
+    private float width, height;
     
     private boolean[] color;
     
@@ -38,6 +39,9 @@ public class MovingPlatform extends Dynamic{
         this.endX = endX;
         this.endY = endY;
         
+        this.width = size * 32;
+        this.height = 32;
+        
         init();
     }
     
@@ -45,19 +49,28 @@ public class MovingPlatform extends Dynamic{
         for(int i = 0; i < size; i++){
             blockArray.add(new ColorBlock((int)(x + 32*i),(int) y,color[0], color[1], color[2], world));
         }
+        for(int i = 0; i < size; i++){
+            world.add(blockArray.get(i));
+        }
     }
     
     public void update(){
-        if(movingLeft && x < startX){
+        super.update();
+        if(movingLeft && x <= startX){
             movingLeft = false;
-        } else if(!movingLeft && x > endX){
+        } else if(!movingLeft && x >= endX){
+            
             movingLeft = true;
         }
         
         if(movingLeft){
-            x -= velocity.x;
+            x -= 1;
+             for(int i = 0; i < size; i++)
+                blockArray.get(i).x -= 1;
         }else{
-            x += velocity.x;
+            x += 1;
+             for(int i = 0; i < size; i++)
+                blockArray.get(i).x += 1;
         }
     }
     

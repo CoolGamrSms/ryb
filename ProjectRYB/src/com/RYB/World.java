@@ -157,7 +157,7 @@ public class World implements DisplayWorld{
     public boolean getB() {
         return b;
     }
-    private void add(Entity e){
+    public void add(Entity e){
         entities.add(e);
     }
     
@@ -179,8 +179,8 @@ public class World implements DisplayWorld{
         end = new End(level.getLevelGoal(),this);
         add(end);
         
-        boolean[] ryb = new boolean[]{true, false, true};
-        add(new MovingPlatform(2, 2, 6, 2, 2,ryb, this));
+       /* boolean[] ryb = new boolean[]{true, false, true};
+        add(new MovingPlatform(200, 200, 400, 200, 2,ryb, this));*/
         
         for(int y = 0; y < level.getGridHeight(); y++){
             for(int x = 0; x < level.getGridWidth(); x++){
