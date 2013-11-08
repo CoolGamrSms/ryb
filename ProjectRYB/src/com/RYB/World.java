@@ -30,7 +30,7 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 4;
+    public int maxLevel = 5;
     
     public int score = 0;
     public double[] scoreGoal= new double[3];
@@ -39,7 +39,7 @@ public class World implements DisplayWorld{
     private Vector2f playerStart;
     private End end;
     
-    private boolean r=true,y=true,b=true, colorChanged = false;; //Global RYB values
+    private boolean r=true,y=true,b=true, colorChanged = false; //Global RYB values
     private boolean jPress,kPress,lPress = false;
     
     public World(){
