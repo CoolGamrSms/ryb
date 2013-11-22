@@ -31,7 +31,7 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 5;
+    public int maxLevel = 10;
     
     public int score = 0;
     public double[] scoreGoal= new double[3];
@@ -41,7 +41,7 @@ public class World implements DisplayWorld{
     private End end;
     
     private boolean r=true,y=true,b=true, colorChanged = false; //Global RYB values
-    private boolean jPress,kPress,lPress = false;
+    private boolean jPress,kPress,lPress,enterPress = false;
     
     public World(){
         loadLevel(curLevel);
@@ -91,8 +91,18 @@ public class World implements DisplayWorld{
         for(int i = 0; i < entities.size(); i++){
             entities.get(i).update();
         }     
-      if (Keyboard.enter && curLevel == 0)
-           nextLevel(); 
+      
+            
+      
+       if(enterPress && Keyboard.enter)
+      {
+           enterPress=false;
+           nextLevel();
+      }
+        if(!Keyboard.enter)
+      {
+           enterPress=true;
+      }
       
       if(colorChanged)
           updateBlockColors();
@@ -107,11 +117,7 @@ public class World implements DisplayWorld{
     public void nextLevel(){
         reset();
         
-        if (curLevel==0)
-        {
-            bgImage = new Sprite("../Assets/SkyBackground.jpg");
-        }
-        else
+        if (curLevel!=0)
         {
             System.out.println("You switched "+ score +" times.");
             if(score <= scoreGoal[0])
@@ -168,6 +174,9 @@ public class World implements DisplayWorld{
         entities.clear();
     }
     private void loadLevel(int curLevel){
+        
+        changeBackground(curLevel);
+        
         Level level = new Level(curLevel);
         
         ArrayList<Integer> blocks = level.getBlocks();
@@ -231,6 +240,27 @@ public class World implements DisplayWorld{
         }
         scoreGoal = level.getGoal();
     }
+    
+    private void changeBackground(int curLevel)
+    {
+        if(curLevel == 0)
+            bgImage = new Sprite("../Assets/Start.jpg");
+        else if(curLevel == 1)
+            bgImage = new Sprite("../Assets/wasd.jpg");
+        else if(curLevel == 2)
+            bgImage = new Sprite("../Assets/r.jpg");
+        else if(curLevel == 3)
+            bgImage = new Sprite("../Assets/j.jpg");
+        else if(curLevel == 4)
+            bgImage = new Sprite("../Assets/jk.jpg");
+        else if(curLevel == 5)
+            bgImage = new Sprite("../Assets/kl.jpg");
+        else if(curLevel == 6)
+            bgImage = new Sprite("../Assets/jkl.jpg");
+        else
+            bgImage = new Sprite("../Assets/SkyBackground.jpg");
+    }
+    
     private void resetPlayer(){
       
         player.x = playerStart.x;
