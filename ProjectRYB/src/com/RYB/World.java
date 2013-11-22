@@ -31,7 +31,7 @@ public class World implements DisplayWorld{
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     public int curLevel = 0;
-    public int maxLevel = 10;
+    public int maxLevel = 11;
     
     public int score = 0;
     public double[] scoreGoal= new double[3];
@@ -261,7 +261,7 @@ public class World implements DisplayWorld{
             bgImage = new Sprite("../Assets/SkyBackground.jpg");
     }
     
-    private void resetPlayer(){
+    public void resetPlayer(){
       
         player.x = playerStart.x;
         player.y = playerStart.y;
