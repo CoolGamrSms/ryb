@@ -7,23 +7,32 @@ package com.RYB;
 
 import com.RYB.Level.LevelBuilder;
 import com.RYB.Level.LevelWorld;
+import com.RYB.Objects.Dynamic;
+import com.RYB.Objects.Player;
 import com.RYB.Utils.Console;
 import com.RYB.Utils.IOUtils;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Mouse;
+import com.RYB.Utils.Vector2f;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -79,13 +88,16 @@ public class Display extends Canvas implements Runnable{
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenuItem levelEditor = new JMenuItem("Level Editor");
+        JMenuItem debugMode = new JMenuItem("Debug Mode");
         
         //Mnemonics
         file.setMnemonic(KeyEvent.VK_F);
         levelEditor.setMnemonic(KeyEvent.VK_L);
+        debugMode.setMnemonic(KeyEvent.VK_D);
         
         //Adding Components
         file.add(levelEditor);
+        file.add(debugMode);
         menu.add(file);
         
         //Listeners
@@ -96,6 +108,99 @@ public class Display extends Canvas implements Runnable{
                 world = new LevelWorld(Display.this);
                 frame.setJMenuBar(createLevelEditorMenu());
                 frame.pack();
+            }
+        });
+        debugMode.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Frame and Panel Setup
+                JFrame frame = new JFrame("Options");
+                JPanel panel = new JPanel();
+                panel.setLayout(new GridLayout(0, 2));
+                
+                    //Declare
+                    JLabel lblLevel,
+                           lblMovement,
+                           lblGravity;
+                    
+                    final JTextField level,
+                                     movement,
+                                     gravity;
+                    
+                    
+                    //Initialize
+                    lblLevel = new JLabel("Level: ");
+                    level = new JTextField("1");
+                    
+                    lblMovement = new JLabel("Movement: (Fast / Normal / Slow) ");
+                    movement = new JTextField("Normal");
+                    
+                    lblGravity = new JLabel("Gravity: (High / Normal / Low");
+                    gravity = new JTextField("Normal");
+                    
+                //Add
+                panel.add(lblLevel);
+                panel.add(level);
+                panel.add(lblMovement);
+                panel.add(movement);
+                panel.add(lblGravity);
+                panel.add(gravity);
+                
+                //Frame Closing Listener
+                frame.addWindowListener(new WindowAdapter(){
+                   @Override
+                   public void windowClosing(WindowEvent windowEvent){
+                       World tmpWorld = (World) world;
+                       Player player = tmpWorld.getPlayer();
+                       
+                       
+                       //Level
+                       tmpWorld.setLevel(Integer.parseInt(level.getText().trim()));
+                       
+                       //Character speed
+                       switch(movement.getText().toLowerCase().trim()){
+                           case "fast":
+                               player.setConstraintVelocity(new Vector2f(3.0f, player.getMaxConstraintVelocity().y));
+                               Dynamic.MOVEMENT = new Vector2f(1.5f,0);                               
+                               break;
+                           case "normal":
+                               tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(1.6f, player.getMaxConstraintVelocity().y));                               
+                               Dynamic.MOVEMENT = new Vector2f(1.0f,0);                               
+                               break;
+                           case "slow":
+                               tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(0.8f, player.getMaxConstraintVelocity().y));                               
+                               Dynamic.MOVEMENT = new Vector2f(0.1f,0);                               
+                               break;
+                           default:
+                               break;
+                       }
+                       
+                       //Gravity
+                       switch(gravity.getText().toLowerCase().trim()){
+                           case "high":
+                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 10.0f));
+                               player.setAcceleration(new Vector2f(0, 3.0f));                               
+                               break;
+                           case "normal":
+                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 1.6f));
+                               //player.setAcceleration(new Vector2f(0, 0.013f));                               
+                               break;
+                           case "low":
+                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 3.0f));
+                               player.setAcceleration(new Vector2f(0, 0.0001f));  
+                               break;
+                           default:
+                               break;
+                       }                       
+                   }
+                });
+                
+                //Frame Finalize
+                frame.add(panel);
+                frame.pack();
+                frame.setVisible(true);
+                frame.setResizable(false);
+                frame.setAlwaysOnTop(true);
             }
         });
         

@@ -1,6 +1,7 @@
 package com.RYB.Objects;
 
 import com.RYB.Graphics.Sprite;
+import com.RYB.Utils.Vector2f;
 import java.awt.Graphics;
 
 public abstract class Entity {
@@ -33,10 +34,26 @@ public abstract class Entity {
         return height;
     }
     
+    public Vector2f getCenter(){
+        return new Vector2f(x - width/2, y - height/2);
+    }
+    public float getBottom(){
+        return y + height;
+    }
+    public float getTop(){
+        return y;
+    }
+    public float getLeft(){
+        return x;
+    }
+    public float getRight(){
+        return x + width;
+    }
+    
     public boolean isOverLapBelow(Entity other){
-        float otherTop = (other.y-other.height/2);
+        float otherCenter = (other.y-other.height/2);
         float thisBottom = (y+height/2);
-        return otherTop < thisBottom + 1;
+        return otherCenter < thisBottom + 1;
     }
     public boolean isOverlap(Entity other){
         boolean xOverlap = (x+width/2>other.x-other.width/2 && x-width/2<other.x+other.width/2);
@@ -59,14 +76,15 @@ public abstract class Entity {
             return ((other.y+other.height/2)+(height/2));
         }
     }
+    
     public void render(Graphics g){
         if(sprite != null)
             sprite.draw(g);
     };
     public void update(){
         if(sprite != null){
-             sprite.x = (int)x - width/2;
-             sprite.y = (int)y - height/2;
+             sprite.x = (int)getCenter().x;
+             sprite.y = (int)getCenter().y;
         }
     };
 }

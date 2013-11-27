@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.RYB.Objects;
 
 import com.RYB.Graphics.Sprite;
@@ -10,7 +6,6 @@ import static com.RYB.Objects.Dynamic.MOVEMENT;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
 import com.RYB.World;
-import java.awt.Color;
 import java.awt.Graphics;
 
 /**

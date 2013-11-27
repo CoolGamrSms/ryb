@@ -1,18 +1,11 @@
 package com.RYB;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import com.RYB.Graphics.Sprite;
 import com.RYB.Objects.Entity;
 import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
-import com.RYB.Objects.MovingPlatform;
 import com.RYB.Objects.Player;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
@@ -30,11 +23,11 @@ public class World implements DisplayWorld{
     Sprite bgImage = new Sprite("../Assets/Start.jpg");
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
-    public int curLevel = 0;
-    public int maxLevel = 11;
+    private int curLevel = 0;
+    private int maxLevel = 11;
     
-    public int score = 0;
-    public double[] scoreGoal= new double[3];
+    private int score = 0;
+    private double[] scoreGoal= new double[3];
     
     private Player player;
     private Vector2f playerStart;
@@ -133,6 +126,18 @@ public class World implements DisplayWorld{
         curLevel++;
         if(curLevel>maxLevel)
         {
+            curLevel = maxLevel;
+        }
+        
+        loadLevel(curLevel);
+    }
+    public void setLevel(int i){
+        reset();
+        
+        curLevel = i;
+        
+        //Bounds Check
+        if (curLevel > maxLevel){
             curLevel = maxLevel;
         }
         

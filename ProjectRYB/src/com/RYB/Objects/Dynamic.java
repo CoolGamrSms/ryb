@@ -4,13 +4,13 @@ import com.RYB.Utils.Vector2f;
 import com.RYB.World;
 
 public abstract class Dynamic extends Entity {
-    public static final Vector2f GRAVITY  = new Vector2f(0, 0.013f),
-                                 FRICTION = new Vector2f(0.06f, 0),
-                                 MOVEMENT = new Vector2f(1.0f,0),
-                                 JUMP     = new Vector2f(0,-2f);
+    public static Vector2f GRAVITY  = new Vector2f(0, 0.013f),
+                           FRICTION = new Vector2f(0.06f, 0),
+                           MOVEMENT = new Vector2f(1.0f,0),
+                           JUMP     = new Vector2f(0,-2f);
     
     protected Vector2f  maxVelocity = new Vector2f(1.6f, 1.6f),
-                        minVelocity = new Vector2f(-1.6f, -1.6f);    
+                        minVelocity = Vector2f.negative(maxVelocity);    
     
     protected Vector2f  velocity, acceleration;
     protected float     prevx, prevy;
@@ -31,8 +31,15 @@ public abstract class Dynamic extends Entity {
     public Vector2f getAcceleration(){
         return acceleration;
     }
+    public Vector2f getMaxConstraintVelocity(){
+        return maxVelocity;
+    }
     public void setAcceleration(Vector2f a){
         acceleration = a;
+    }
+    public void setConstraintVelocity(Vector2f v){
+        maxVelocity = v;
+        minVelocity = Vector2f.negative(v);
     }
     
     public boolean isOnGround(){

@@ -17,10 +17,7 @@ public class MovingPlatform extends Dynamic{
     public ArrayList<ColorBlock> blockArray = new ArrayList<ColorBlock>();
     private int size = 1;
     
-    private float x, y;
     private float startX, startY, endX, endY;
-    private World world;
-    private float width, height;
     
     private boolean[] color;
     
@@ -29,9 +26,6 @@ public class MovingPlatform extends Dynamic{
     public MovingPlatform(float startX, float startY, float endX, float endY, int size, boolean[] color, World world){
         super(startX, startY, 32 * size, 32, world);
         this.size = size;
-        this.x = startX;
-        this.y = startY;
-        this.world = world;
         this.color = color;
         
         this.startX = startX;
@@ -39,8 +33,6 @@ public class MovingPlatform extends Dynamic{
         this.endX = endX;
         this.endY = endY;
         
-        this.width = size * 32;
-        this.height = 32;
         
         init();
     }
