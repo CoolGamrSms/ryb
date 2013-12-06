@@ -13,7 +13,7 @@ import java.awt.Graphics;
  * @author Shane
  */
 public class Player extends Dynamic{
-
+            
     private boolean jumping = false;
     
     public Player(float x, float y, World world){
@@ -24,6 +24,7 @@ public class Player extends Dynamic{
         super(startPosition.x, startPosition.y, 30, 48, world);
         loadPlayer();
         setAcceleration(GRAVITY);
+        friction = FRICTION;
     }
     
     private void loadPlayer(){
@@ -40,36 +41,31 @@ public class Player extends Dynamic{
     public void handleKeyPress(){
        //Right moves right
        if(Keyboard.right){
-           velocity.x+=MOVEMENT.x;
+           if (isOnGround()){
+               acceleration.x = MOVEMENT.x;
+           }
+           else{
+               acceleration.x = MOVEMENT_AIR.x;
+               friction.x = FRICTION_AIR.x;
+           }
        }
        
        //Left moves left
-       if(Keyboard.left){
-           velocity.x-=MOVEMENT.x;
+       else if(Keyboard.left){
+           if (isOnGround()){
+               
+               acceleration.x = -MOVEMENT.x;
+           }
+           else{
+               acceleration.x = -MOVEMENT_AIR.x;
+               friction.x = FRICTION_AIR.x;
+           }       
        }     
+       else{
+           acceleration.x = 0;
+       }
     }
-    
-    @Override
-    public void handleConstraints(){
-        //Must limit x movement while in air
-        if (!isOnGround()){
-            Vector2f tmpMax = new Vector2f(maxVelocity);
-            Vector2f tmpMin = new Vector2f(minVelocity);
-            
-            maxVelocity = new Vector2f(0.8f, tmpMax.y);
-            minVelocity = new Vector2f(-0.8f, tmpMin.y);
 
-            super.handleConstraints();
-
-            maxVelocity = tmpMax;
-            minVelocity = tmpMin;
-        }
-        //Normal limits on velocity
-        else{
-            super.handleConstraints();
-        }
-    }
-    
     @Override
     public void update() {
        super.update();
@@ -87,6 +83,7 @@ public class Player extends Dynamic{
     public void reset(){
         velocity.x = 0;
         velocity.y = 0;
+        acceleration = GRAVITY;
     }
     
 }

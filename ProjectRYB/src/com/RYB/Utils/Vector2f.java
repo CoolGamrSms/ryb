@@ -27,4 +27,10 @@ public class Vector2f {
     public static Vector2f negative(Vector2f v){
         return new Vector2f( -v.x, -v.y );
     }
+    
+    
+    @Override
+    public String toString(){
+        return "x:" + this.x + ", y:" + this.y;        
+    }
 }
