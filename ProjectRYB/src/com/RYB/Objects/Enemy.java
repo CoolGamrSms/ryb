@@ -15,9 +15,10 @@ public abstract class Enemy extends Dynamic{
     
     private String type;
     
-    Enemy(float x, float y, int width, int height, World world)
+    Enemy(float x, float y, int width, int height, World world, String enemyType)
     {
         super(x, y, width, height,world);
+        type = enemyType;
         loadEnemy();
     }
     
@@ -31,6 +32,9 @@ public abstract class Enemy extends Dynamic{
     {
         sprite = new Sprite("../Assets/"+type+".png", (int) x , (int) y); 
     }
+    
+    public int getType()
+    {return -1;}
     
     public void update()
     {

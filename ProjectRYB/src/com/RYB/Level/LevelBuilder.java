@@ -3,6 +3,7 @@ package com.RYB.Level;
 import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Objects.Entity;
+import com.RYB.Objects.Enemy;
 import com.RYB.Objects.Player;
 import com.RYB.Utils.Vector2f;
 import java.io.BufferedWriter;
@@ -133,7 +134,7 @@ public class LevelBuilder {
             commands.add("width=" + columns);
             commands.add("height=" + rows);
             commands.add("tilewidth=" + tileLength);
-            commands.add("tileheight" + tileLength);
+            commands.add("tileheight=" + tileLength);
             commands.add("");
             
             commands.add("[tilesets]");
@@ -149,6 +150,9 @@ public class LevelBuilder {
                         ///If empty
                         if (grid[r][c] == null){
                             aRow += "0,";
+                        }
+                        else if (grid[r][c] instanceof Enemy){
+                            aRow += ((Enemy) grid[r][c]).getType() + ",";
                         }
                         else if (grid[r][c] instanceof GreyBlock){
                             aRow += ((GreyBlock) grid[r][c]).getColor() + ",";

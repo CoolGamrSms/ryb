@@ -7,6 +7,7 @@ import com.RYB.Objects.Blocks.ColorBlock;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Level.Level;
 import com.RYB.Objects.Player;
+import com.RYB.Objects.Spike;
 import com.RYB.Utils.Keyboard;
 import com.RYB.Utils.Vector2f;
 import java.awt.Color;
@@ -21,10 +22,11 @@ import java.util.ArrayList;
 public class World implements DisplayWorld{
     Color bgColor = Color.white;
     Sprite bgImage = new Sprite("../Assets/Start.jpg");
+    Sprite bgOverlay = new Sprite("../Assets/clearOverlay.png");
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     private int curLevel = 0;
-    private int maxLevel = 11;
+    private int maxLevel = 12;
     
     private int score = 0;
     private double[] scoreGoal= new double[3];
@@ -150,6 +152,7 @@ public class World implements DisplayWorld{
          g.fillRect(0, 0, Display.width, Display.height);
          
          bgImage.draw(g);
+         bgOverlay.draw(g);
          
          for(int i = 0; i < entities.size(); i++){
              if (entities.get(i) != null)
@@ -229,6 +232,9 @@ public class World implements DisplayWorld{
                     case(9): //white block
                         this.add(new ColorBlock(px, py, false, false, false, this));
                         break;
+                    case(10): //spike
+                        this.add(new Spike(px, py, this));
+                        break;
                    
                     default:
                         break;
@@ -249,21 +255,28 @@ public class World implements DisplayWorld{
     private void changeBackground(int curLevel)
     {
         if(curLevel == 0)
+        {
             bgImage = new Sprite("../Assets/Start.jpg");
-        else if(curLevel == 1)
-            bgImage = new Sprite("../Assets/wasd.jpg");
-        else if(curLevel == 2)
-            bgImage = new Sprite("../Assets/r.jpg");
-        else if(curLevel == 3)
-            bgImage = new Sprite("../Assets/j.jpg");
-        else if(curLevel == 4)
-            bgImage = new Sprite("../Assets/jk.jpg");
-        else if(curLevel == 5)
-            bgImage = new Sprite("../Assets/kl.jpg");
-        else if(curLevel == 6)
-            bgImage = new Sprite("../Assets/jkl.jpg");
+            bgOverlay = new Sprite("../Assets/clearOverlay.png");
+        }
         else
+        {
             bgImage = new Sprite("../Assets/SkyBackground.jpg");
+            if(curLevel == 1)
+                bgOverlay = new Sprite("../Assets/wasdOverlay.png");
+            else if(curLevel == 2)
+                bgOverlay = new Sprite("../Assets/rOverlay.png");
+            else if(curLevel == 3)
+                bgOverlay = new Sprite("../Assets/jOverlay.png");
+            else if(curLevel == 4)
+                bgOverlay = new Sprite("../Assets/jkOverlay.png");
+            else if(curLevel == 5)
+                bgOverlay = new Sprite("../Assets/klOverlay.png");
+            else if(curLevel == 6)
+                bgOverlay = new Sprite("../Assets/jklOverlay.png");
+            else
+                bgOverlay = new Sprite("../Assets/clearOverlay.png");
+        }
     }
     
     public void resetPlayer(){

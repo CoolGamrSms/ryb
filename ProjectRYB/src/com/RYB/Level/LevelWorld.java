@@ -9,6 +9,7 @@ import com.RYB.DisplayWorld;
 import com.RYB.Objects.Blocks.End;
 import com.RYB.Objects.Blocks.GreyBlock;
 import com.RYB.Objects.Player;
+import com.RYB.Objects.Spike;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
@@ -227,11 +228,15 @@ public class LevelWorld implements DisplayWorld{
                 else if (toolBar.getEntityToolSelected().equals("End")){
                         builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.y * blockSize), (int) (cellClicked.x * blockSize), tempWorld)); 
                 }
+                else if (toolBar.getEntityToolSelected().equals("Spike")){ 
+                        builder.addEntity( row, col, new Spike( xCenter, yCenter , tempWorld));
+                }
         } 
     }
     private void mouseReleased(int clickX, int releaseX, int clickY, int releaseY){
         //Exits if not block drags
-        if (toolBar.getEntityToolSelected().equals("Player") || toolBar.getEntityToolSelected().equals("End")){
+        if (toolBar.getEntityToolSelected().equals("Player") || toolBar.getEntityToolSelected().equals("End")
+           || toolBar.getEntityToolSelected().equals("Spike") ){
             return;
         }
  
