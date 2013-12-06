@@ -85,5 +85,4 @@ public class Player extends Dynamic{
         velocity.y = 0;
         acceleration = GRAVITY;
     }
-    
 }

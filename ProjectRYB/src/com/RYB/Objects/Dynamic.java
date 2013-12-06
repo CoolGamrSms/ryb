@@ -1,5 +1,6 @@
 package com.RYB.Objects;
 
+import com.RYB.Display;
 import com.RYB.Utils.Vector2f;
 import com.RYB.World;
 
@@ -90,7 +91,9 @@ public abstract class Dynamic extends Entity {
                 Static s = (Static)e;
                 
                 if(this.isOverlap(s) && s.getSolid()) { //Check if the block is solid and overlapping
-                    if(!s.wasSolid()) System.out.println("Crushed"); //We need to decide what to do when something gets crushed
+                    if(!s.wasSolid()){
+                        crushed();
+                    } //We need to decide what to do when something gets crushed
                     
                     y = this.overlapY(s); //Snap to edge of colliding block
                     prevy = y-velocity.y; //For player class to recognize jumping should be true
@@ -113,17 +116,40 @@ public abstract class Dynamic extends Entity {
             if(e instanceof Static) { //Loop through all statics in the world
                 Static s = (Static)e;
                 if(this.isOverlap(s) && s.getSolid()) { //Check for collision with a solid
-                    if(!s.wasSolid()) System.out.println("Crushed");
+                    if(!s.wasSolid()){
+                        crushed();
+                    }
+                    
                     x = this.overlapX(s); //Snap to edge of colliding block
                     velocity.x = 0;
                 }
             }
-        }        
+        }   
+        
+        if (x < 0){
+            offMap();
+        }
+        if (x > Display.width){
+            offMap();
+        }
+        if (y < 0){
+            offMap();
+        }
+        if (y > Display.height){
+            offMap();
+        }
     }
     
     @Override 
     public void update(){
         super.update();
         updateKinematics();
+    }
+    
+    public void crushed(){
+        world.resetPlayer();
+    }
+    public void offMap(){
+        world.resetPlayer();
     }
 }

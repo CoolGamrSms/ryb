@@ -160,8 +160,8 @@ public class Display extends Canvas implements Runnable{
                        //Character speed
                        switch(movement.getText().toLowerCase().trim()){
                            case "fast":
-                               player.setConstraintVelocity(new Vector2f(3.0f, player.getMaxConstraintVelocity().y));
-                               Dynamic.MOVEMENT = new Vector2f(1.5f,0);                               
+                               player.setConstraintVelocity(new Vector2f(15.0f, player.getMaxConstraintVelocity().y));
+                               Dynamic.MOVEMENT = new Vector2f(3.0f,0);                               
                                break;
                            case "normal":
                                tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(1.6f, player.getMaxConstraintVelocity().y));                               
@@ -169,7 +169,7 @@ public class Display extends Canvas implements Runnable{
                                break;
                            case "slow":
                                tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(0.8f, player.getMaxConstraintVelocity().y));                               
-                               Dynamic.MOVEMENT = new Vector2f(0.1f,0);                               
+                               Dynamic.MOVEMENT = new Vector2f(0.05f,0);                               
                                break;
                            default:
                                break;
