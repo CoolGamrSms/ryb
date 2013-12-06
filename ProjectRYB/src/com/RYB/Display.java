@@ -26,6 +26,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -114,7 +115,7 @@ public class Display extends Canvas implements Runnable{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Frame and Panel Setup
-                JFrame frame = new JFrame("Options");
+                final JFrame frame = new JFrame("Options");
                 JPanel panel = new JPanel();
                 panel.setLayout(new GridLayout(0, 2));
                 
@@ -127,6 +128,7 @@ public class Display extends Canvas implements Runnable{
                                      movement,
                                      gravity;
                     
+                    JButton exit;
                     
                     //Initialize
                     lblLevel = new JLabel("Level: ");
@@ -138,6 +140,8 @@ public class Display extends Canvas implements Runnable{
                     lblGravity = new JLabel("Gravity: (High / Normal / Low");
                     gravity = new JTextField("Normal");
                     
+                    exit = new JButton("Close");
+                    
                 //Add
                 panel.add(lblLevel);
                 panel.add(level);
@@ -145,11 +149,12 @@ public class Display extends Canvas implements Runnable{
                 panel.add(movement);
                 panel.add(lblGravity);
                 panel.add(gravity);
+                panel.add(exit);
                 
-                //Frame Closing Listener
-                frame.addWindowListener(new WindowAdapter(){
-                   @Override
-                   public void windowClosing(WindowEvent windowEvent){
+                final ActionListener closeAction = new ActionListener(){
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
                        World tmpWorld = (World) world;
                        Player player = tmpWorld.getPlayer();
                        
@@ -192,6 +197,22 @@ public class Display extends Canvas implements Runnable{
                            default:
                                break;
                        }                       
+                   }
+                    
+                };
+                
+                //Frame Closing Listener
+                exit.addActionListener(new ActionListener(){
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            closeAction.actionPerformed(null);
+                            frame.dispose();
+                        }
+                    });
+                frame.getRootPane().setDefaultButton(exit);                
+                frame.addWindowListener(new WindowAdapter(){
+                   @Override
+                   public void windowClosing(WindowEvent windowEvent){
                    }
                 });
                 

@@ -28,6 +28,7 @@ public abstract class Dynamic extends Entity {
         acceleration = new Vector2f(0f,0f);
     }
     
+    //Getters and Setters
     public Vector2f getVelocity(){
         return velocity;
     } 
@@ -44,21 +45,28 @@ public abstract class Dynamic extends Entity {
         maxVelocity = v;
         minVelocity = Vector2f.negative(v);
     }
-    
+   
     public boolean isOnGround(){
         return onGround;
     }
-
-    public void handleKeyPress(){
-        //Override this to deal with dynamics that respond to a key press
-    }  
-    public void handleConstraints(){
-        velocity.x = Math.min(velocity.x, maxVelocity.x);
-        velocity.y = Math.min(velocity.y, maxVelocity.y);
+    protected boolean isOffMap(){
+        if (x < 0){
+            return true;
+        }
+        if (x > Display.width){
+            return true;
+        }
+        if (y < 0){
+            return true;
+        }
+        if (y > Display.height){
+            return true;
+        }   
         
-        velocity.x = Math.max(velocity.x, minVelocity.x);
-        velocity.y = Math.max(velocity.y, minVelocity.y);
+        return false;
     }
+
+    //Physics
     public void updateKinematics(){
         
         if(Math.abs(velocity.x)<friction.x) velocity.x = 0; //Round friction
@@ -81,8 +89,20 @@ public abstract class Dynamic extends Entity {
         x += velocity.x;
         handleXCollision();
         
-        
+        if (isOffMap()){
+            offMap();
+        }
     }  
+    public void handleKeyPress(){
+        //Override this to deal with dynamics that respond to a key press
+    }  
+    public void handleConstraints(){
+        velocity.x = Math.min(velocity.x, maxVelocity.x);
+        velocity.y = Math.min(velocity.y, maxVelocity.y);
+        
+        velocity.x = Math.max(velocity.x, minVelocity.x);
+        velocity.y = Math.max(velocity.y, minVelocity.y);
+    }
     protected void handleYCollision(){
         boolean bottomTouchesAnyBlock = false;
         for(int i = 0; i < world.getEntities().size(); i++){
@@ -125,26 +145,17 @@ public abstract class Dynamic extends Entity {
                 }
             }
         }   
-        
-        if (x < 0){
-            offMap();
-        }
-        if (x > Display.width){
-            offMap();
-        }
-        if (y < 0){
-            offMap();
-        }
-        if (y > Display.height){
-            offMap();
-        }
     }
+    
+    //Rendering
     
     @Override 
     public void update(){
         super.update();
         updateKinematics();
     }
+    
+    //Death Handling
     
     public void crushed(){
         world.resetPlayer();
