@@ -107,7 +107,15 @@ public class LevelBuilder {
         
         grid[row][col] = null;
     }
-       
+    
+    public void clearAll(){
+        for (int r = 0; r < rows; r++){
+            for (int c = 0; c < columns; c++){
+                removeEntity(r, c);
+            }
+        }
+    }
+    
     /**
      * Gets the cell (row, col) based on the point location x, y.
      * @param xPressed x pixel relative to LevelWorld

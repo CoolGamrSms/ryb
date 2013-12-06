@@ -252,6 +252,7 @@ public class World implements DisplayWorld{
         scoreGoal = level.getGoal();
     }
     
+    
     private void changeBackground(int curLevel)
     {
         if(curLevel == 0)

@@ -32,6 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -120,13 +121,9 @@ public class Display extends Canvas implements Runnable{
                 panel.setLayout(new GridLayout(0, 2));
                 
                     //Declare
-                    JLabel lblLevel,
-                           lblMovement,
-                           lblGravity;
+                    JLabel lblLevel;
                     
-                    final JTextField level,
-                                     movement,
-                                     gravity;
+                    final JTextField level;
                     
                     JButton exit;
                     
@@ -134,21 +131,11 @@ public class Display extends Canvas implements Runnable{
                     lblLevel = new JLabel("Level: ");
                     level = new JTextField("1");
                     
-                    lblMovement = new JLabel("Movement: (Fast / Normal / Slow) ");
-                    movement = new JTextField("Normal");
-                    
-                    lblGravity = new JLabel("Gravity: (High / Normal / Low");
-                    gravity = new JTextField("Normal");
-                    
                     exit = new JButton("Close");
                     
                 //Add
                 panel.add(lblLevel);
                 panel.add(level);
-                panel.add(lblMovement);
-                panel.add(movement);
-                panel.add(lblGravity);
-                panel.add(gravity);
                 panel.add(exit);
                 
                 final ActionListener closeAction = new ActionListener(){
@@ -161,42 +148,6 @@ public class Display extends Canvas implements Runnable{
                        
                        //Level
                        tmpWorld.setLevel(Integer.parseInt(level.getText().trim()));
-                       
-                       //Character speed
-                       switch(movement.getText().toLowerCase().trim()){
-                           case "fast":
-                               player.setConstraintVelocity(new Vector2f(15.0f, player.getMaxConstraintVelocity().y));
-                               Dynamic.MOVEMENT = new Vector2f(3.0f,0);                               
-                               break;
-                           case "normal":
-                               tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(1.6f, player.getMaxConstraintVelocity().y));                               
-                               Dynamic.MOVEMENT = new Vector2f(1.0f,0);                               
-                               break;
-                           case "slow":
-                               tmpWorld.getPlayer().setConstraintVelocity(new Vector2f(0.8f, player.getMaxConstraintVelocity().y));                               
-                               Dynamic.MOVEMENT = new Vector2f(0.05f,0);                               
-                               break;
-                           default:
-                               break;
-                       }
-                       
-                       //Gravity
-                       switch(gravity.getText().toLowerCase().trim()){
-                           case "high":
-                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 10.0f));
-                               player.setAcceleration(new Vector2f(0, 3.0f));                               
-                               break;
-                           case "normal":
-                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 1.6f));
-                               //player.setAcceleration(new Vector2f(0, 0.013f));                               
-                               break;
-                           case "low":
-                               player.setConstraintVelocity(new Vector2f(player.getMaxConstraintVelocity().x, 3.0f));
-                               player.setAcceleration(new Vector2f(0, 0.0001f));  
-                               break;
-                           default:
-                               break;
-                       }                       
                    }
                     
                 };
@@ -232,6 +183,7 @@ public class Display extends Canvas implements Runnable{
         JMenu file = new JMenu("File");
         JMenuItem gameWorld = new JMenuItem("Game World");
         JMenuItem save = new JMenuItem("Save...");
+        JMenuItem load = new JMenuItem("Load...");        
         JMenuItem testLevel = new JMenuItem("Test Level");
         JMenu addItem = new JMenu("Add...");
         JMenuItem playerStart = new JMenuItem("Player Start");
@@ -245,6 +197,7 @@ public class Display extends Canvas implements Runnable{
         file.add(gameWorld);
         file.addSeparator();
         file.add(save);
+        file.add(load);
         file.add(testLevel);
         file.add(addItem);
         addItem.add(playerStart);
@@ -273,6 +226,31 @@ public class Display extends Canvas implements Runnable{
             
         });
         
+        load.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File f = IOUtils.browseToSaveMap();
+                
+                int length = ("level").length();
+                int indexStart, indexEnd, level;
+                
+                //Validates user's file choice
+                if (f != null && (indexStart = f.getName().indexOf("level")) != -1 && (indexEnd = f.getName().indexOf(".")) != -1 && indexStart < indexEnd){
+                    
+                    try{
+                        level = Integer.parseInt(f.getName().substring(indexStart + length, indexEnd));
+                    }
+                    catch (NumberFormatException t){
+                        JOptionPane.showMessageDialog(null, "Please pick a valid level!", "Warning", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    
+                    ((LevelWorld) world).loadLevel(level);
+                }
+            }
+            
+        });
         testLevel.addActionListener(new ActionListener(){
 
             @Override
@@ -327,7 +305,7 @@ public class Display extends Canvas implements Runnable{
 	double ns = 1000000000.0 / 240.0;
 	double delta = 0;
 	int frames = 0;
-		
+		        
 	while(running){
             long curTime = System.nanoTime();
             delta = (curTime - lastTime) / ns;            

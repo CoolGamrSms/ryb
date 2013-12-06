@@ -144,6 +144,81 @@ public class LevelWorld implements DisplayWorld{
         builder.output(file);
     }
 
+    public void loadLevel(int levelNum) {
+        builder.clearAll();
+        
+        Level level = new Level(levelNum);
+        
+            Vector2f cellClicked;
+            Vector2f entityCenter;        
+            int row;
+            int col;
+            int xCenter;
+            int yCenter;
+            
+        //Player Load
+            entityCenter = level.getPlayerStart();
+            cellClicked = builder.getCellVector((int)entityCenter.x, (int)entityCenter.y);
+            row = (int) cellClicked.x;
+            col = (int) cellClicked.y;
+            xCenter = (int) entityCenter.x;
+            yCenter = (int) entityCenter.y;
+            builder.addPlayer( row, col, new Player( xCenter, yCenter , tempWorld));
+           
+        //End Load
+            entityCenter = level.getLevelGoal();
+            cellClicked = builder.getCellVector((int)entityCenter.x, (int)entityCenter.y);
+            builder.addEnd( (int) (cellClicked.x), (int) (cellClicked.y), new End((int) (cellClicked.y * blockSize), (int) (cellClicked.x * blockSize), tempWorld));
+            
+        for(int y = 0; y < level.getGridHeight(); y++){
+            for(int x = 0; x < level.getGridWidth(); x++){
+                int px = x * level.getTileWidth() + level.getTileWidth()/2, py = y * level.getTileWidth() + level.getTileWidth()/2;
+                
+                entityCenter = new Vector2f(px, py);
+                cellClicked = builder.getCellVector((int)entityCenter.x, (int)entityCenter.y);
+            
+                switch(level.getBlocks().get(x + y * level.getGridWidth())){
+                    case (0):
+                        break;
+                    case (1): //gray block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new GreyBlock(px, py));
+                        break;
+                    case(2): //red block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, true, false, false, tempWorld));
+                        break;
+                    case(3): //yellow block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, false, true, false, tempWorld));
+                        break;
+                    case(4): //blue block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, false, false, true, tempWorld));
+                        break;
+                    case(5): //orange block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, true, true, false, tempWorld));
+                        break;
+                    case(6): //purple block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, true, false, true, tempWorld));
+                        break;
+                    case(7): //green block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, false, true, true, tempWorld));
+                        break;
+                    case(8): //black block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, true, true, true, tempWorld));
+                        break;
+                    case(9): //white block
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new ColorBlock(px, py, false, false, false, tempWorld));
+                        break;
+                    case(10): //spike
+                        builder.addEntity((int) (cellClicked.x), (int) (cellClicked.y), new Spike(px, py, tempWorld));
+                        break;
+                   
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    
+    
     private void deletePressed(int mouseX, int mouseY){
         Vector2f cellClicked = builder.getCellVector(mouseX, mouseY);
 
