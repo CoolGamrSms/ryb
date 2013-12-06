@@ -19,11 +19,12 @@ import javax.swing.JToolBar;
 public class LevelToolBar {
     public static final String  ENTITY_PLAYER = "Player",
                                 ENTITY_END = "End",
-                                ENTITY_BLOCK = "Block";
+                                ENTITY_BLOCK = "Block",
+                                ENTITY_SPIKE = "Spike";
     
     private JDialog toolBar;
     
-    private JButton player, end, block;
+    private JButton player, end, block, spike;
                     
     
     private JButton red, blue, yellow, gray;
@@ -49,13 +50,14 @@ public class LevelToolBar {
         tmp.add(player);
         tmp.add(end);
         tmp.add(block);
-        tmp.add(new JPanel());
+        tmp.add(spike);
         
         tmp.add(red);
         tmp.add(blue);
         tmp.add(yellow);
         tmp.add(gray);
         
+       
         return tmp;
     }
     private void initDialog(){
@@ -71,6 +73,7 @@ public class LevelToolBar {
         player = new JButton("P");
         end = new JButton("E");
         block = new JButton("B");
+        spike = new JButton("S");
         
         ActionListener EntityTypeListener = new ActionListener(){
             @Override
@@ -82,6 +85,7 @@ public class LevelToolBar {
         player.addActionListener(EntityTypeListener);
         end.addActionListener(EntityTypeListener);
         block.addActionListener(EntityTypeListener);
+        spike.addActionListener(EntityTypeListener);
         toggleEntity("B");
     }
     private void initBlockColorTools(){
@@ -177,6 +181,7 @@ public class LevelToolBar {
         player.setEnabled(true);
         end.setEnabled(true);
         block.setEnabled(true);
+        spike.setEnabled(true);
         
         switch (buttonPressed) {
             case "P":
@@ -187,6 +192,9 @@ public class LevelToolBar {
                 break;
             case "B":
                 block.setEnabled(false);
+                break;
+            case "S":
+                spike.setEnabled(false);
                 break;
             default:
                 block.setEnabled(false);
@@ -203,6 +211,9 @@ public class LevelToolBar {
         }
         else if (!block.isEnabled()){
             return ENTITY_BLOCK;
+        }
+        else if (!spike.isEnabled()){
+            return ENTITY_SPIKE;
         }
         else{
             return null;
