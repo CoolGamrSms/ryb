@@ -4,15 +4,17 @@ import com.RYB.Utils.Vector2f;
 import com.RYB.World;
 
 public abstract class Dynamic extends Entity {
-    public static Vector2f GRAVITY  = new Vector2f(0, 0.013f),
-                           FRICTION = new Vector2f(0.06f, 0),
-                           MOVEMENT = new Vector2f(1.0f,0),
+    public static Vector2f GRAVITY  = new Vector2f(0, 0.02f),
+                           FRICTION = new Vector2f(0.04f, 0),
+                           FRICTION_AIR = new Vector2f(0.04f, 0.0f),
+                           MOVEMENT = new Vector2f(0.2f,0),
+                           MOVEMENT_AIR = new Vector2f(0.06f,0.0f),
                            JUMP     = new Vector2f(0,-2f);
     
-    protected Vector2f  maxVelocity = new Vector2f(1.6f, 1.6f),
+    protected Vector2f  maxVelocity = new Vector2f(1.8f, 4.5f),
                         minVelocity = Vector2f.negative(maxVelocity);    
     
-    protected Vector2f  velocity, acceleration;
+    protected Vector2f  velocity, acceleration, friction;
     protected float     prevx, prevy;
     protected World     world;
     protected boolean   onGround;
@@ -57,8 +59,12 @@ public abstract class Dynamic extends Entity {
         velocity.y = Math.max(velocity.y, minVelocity.y);
     }
     public void updateKinematics(){
-        velocity.x = Math.signum(velocity.x)*(Math.abs(velocity.x)-FRICTION.x); //Apply friction
-        if(Math.abs(velocity.x)*3<FRICTION.x) velocity.x = 0; //Round friction
+        
+        if(Math.abs(velocity.x)<friction.x) velocity.x = 0; //Round friction
+        
+        if(Math.abs(velocity.x)!=0)
+            velocity.x = Math.signum(velocity.x)*(Math.abs(velocity.x)-friction.x); //Apply friction
+        
         velocity.x += acceleration.x;
         velocity.y += acceleration.y;
         
@@ -73,6 +79,8 @@ public abstract class Dynamic extends Entity {
         
         x += velocity.x;
         handleXCollision();
+        
+        
     }  
     protected void handleYCollision(){
         boolean bottomTouchesAnyBlock = false;
