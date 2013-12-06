@@ -115,7 +115,15 @@ public class ColorBlock extends GreyBlock{
     public void update(){
       psolid = solid;  
     }
-    
+    public boolean getR() {
+        return ryb[0];
+    }
+    public boolean getYw() {
+        return ryb[1];
+    }
+    public boolean getB() {
+        return ryb[2];
+    }
     public int getColor(){
         if (rt && yt && bt){
             return 8;

@@ -48,10 +48,12 @@ public class World implements DisplayWorld{
       }
       if(jPress && Keyboard.KEY_J)
       {
-          jPress=false;
-          r=!r;
-          colorChanged = true;
-          score++;
+          if(!player.get_rCollide()) {
+           jPress=false;
+           r=!r;
+           colorChanged = true;
+           score++;
+          }
       }
        if(!Keyboard.KEY_K)
       {
@@ -59,10 +61,12 @@ public class World implements DisplayWorld{
       }
       if(kPress && Keyboard.KEY_K)
       {
+          if(!player.get_yCollide()) {
            kPress=false;
            y=!y;
            colorChanged = true;
            score++;
+          }
       }
         if(!Keyboard.KEY_L)
       {
@@ -70,10 +74,12 @@ public class World implements DisplayWorld{
       }
       if(lPress && Keyboard.KEY_L)
       {
+          if(!player.get_bCollide()) {
            lPress=false;
            b=!b;
            colorChanged = true;
            score++;
+          }
       }
       if(Keyboard.KEY_R){
           resetPlayer();
