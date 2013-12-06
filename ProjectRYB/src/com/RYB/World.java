@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class World implements DisplayWorld{
     Color bgColor = Color.white;
     Sprite bgImage = new Sprite("../Assets/Start.jpg");
-    Sprite bgOverlay = new Sprite("../Assets/clearOverlay.png");
+   // Sprite bgOverlay = new Sprite("../Assets/clearOverlay.png");
     private ArrayList<Entity> entities = new ArrayList<Entity>();
     
     private int curLevel = 0;
@@ -152,7 +152,7 @@ public class World implements DisplayWorld{
          g.fillRect(0, 0, Display.width, Display.height);
          
          bgImage.draw(g);
-         bgOverlay.draw(g);
+         //bgOverlay.draw(g);
          
          for(int i = 0; i < entities.size(); i++){
              if (entities.get(i) != null)
@@ -257,12 +257,12 @@ public class World implements DisplayWorld{
         if(curLevel == 0)
         {
             bgImage = new Sprite("../Assets/Start.jpg");
-            bgOverlay = new Sprite("../Assets/clearOverlay.png");
+            //bgOverlay = new Sprite("../Assets/clearOverlay.png");
         }
         else
         {
             bgImage = new Sprite("../Assets/SkyBackground.jpg");
-            if(curLevel == 1)
+            /*if(curLevel == 1)
                 bgOverlay = new Sprite("../Assets/wasdOverlay.png");
             else if(curLevel == 2)
                 bgOverlay = new Sprite("../Assets/rOverlay.png");
@@ -275,7 +275,7 @@ public class World implements DisplayWorld{
             else if(curLevel == 6)
                 bgOverlay = new Sprite("../Assets/jklOverlay.png");
             else
-                bgOverlay = new Sprite("../Assets/clearOverlay.png");
+                bgOverlay = new Sprite("../Assets/clearOverlay.png");*/
         }
     }
     
