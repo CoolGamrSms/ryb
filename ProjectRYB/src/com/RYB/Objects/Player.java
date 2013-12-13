@@ -33,7 +33,7 @@ public class Player extends Dynamic{
     
     @Override
     public void render(Graphics g) {
-        //g.fillRect((int)x-width/2, (int)y-height/2, w, h); //Uncomment to show bounding box
+        //test
         super.render(g);
     }
 
